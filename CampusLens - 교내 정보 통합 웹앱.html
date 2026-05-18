@@ -1,0 +1,2868 @@
+z<!doctype html>
+<!-- saved from url=(0067)file:///C:/Users/ckdal/Desktop/campus_info_onetrue_layout_html.html -->
+<html lang="ko">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CampusLens - 교내 정보 통합 웹앱</title>
+		<script src="./CampusLens - 교내 정보 통합 웹앱_files/jquery-3.7.1.min.js.다운로드"></script>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			:root {
+				--bg: #edf4ff;
+				--paper: rgba(255, 255, 255, 0.84);
+				--paper-solid: #ffffff;
+				--ink: #0f172a;
+				--muted: #64748b;
+				--line: rgba(148, 163, 184, 0.28);
+				--primary: #4f46e5;
+				--cyan: #06b6d4;
+				--orange: #f97316;
+				--green: #16a34a;
+				--shadow: 0 24px 70px rgba(30, 41, 59, 0.14);
+				--shadow-soft: 0 12px 35px rgba(30, 41, 59, 0.09);
+			}
+
+			body.dark {
+				--bg: #07111f;
+				--paper: rgba(15, 23, 42, 0.78);
+				--paper-solid: #0f172a;
+				--ink: #e5e7eb;
+				--muted: #94a3b8;
+				--line: rgba(148, 163, 184, 0.18);
+				background:
+					radial-gradient(
+						circle at 10% 5%,
+						rgba(79, 70, 229, 0.22),
+						transparent 28%
+					),
+					radial-gradient(
+						circle at 90% 8%,
+						rgba(6, 182, 212, 0.16),
+						transparent 30%
+					),
+					linear-gradient(180deg, #07111f, #020617 78%);
+			}
+
+			html,
+			body {
+				min-height: 100%;
+			}
+
+			body {
+				color: var(--ink);
+				font-family:
+					Pretendard,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe UI",
+					"Apple SD Gothic Neo",
+					"Malgun Gothic",
+					sans-serif;
+				background:
+					radial-gradient(
+						circle at 10% 5%,
+						rgba(79, 70, 229, 0.22),
+						transparent 28%
+					),
+					radial-gradient(
+						circle at 90% 8%,
+						rgba(6, 182, 212, 0.24),
+						transparent 30%
+					),
+					radial-gradient(
+						circle at 80% 90%,
+						rgba(249, 115, 22, 0.14),
+						transparent 32%
+					),
+					linear-gradient(180deg, var(--bg), #f8fafc 78%);
+				overflow-x: hidden;
+			}
+
+			button,
+			input,
+			select {
+				font-family: inherit;
+			}
+			button {
+				border: 0;
+				cursor: pointer;
+			}
+			input,
+			select {
+				border: 0;
+				outline: 0;
+			}
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
+
+			.wrap {
+				width: min(1180px, calc(100% - 36px));
+				margin: 0 auto;
+				padding: 22px 0 48px;
+			}
+
+			.page-shell {
+				position: relative;
+				overflow: hidden;
+				border: 1px solid var(--line);
+				border-radius: 38px;
+				background: rgba(255, 255, 255, 0.62);
+				backdrop-filter: blur(24px);
+				box-shadow: var(--shadow);
+			}
+
+			.absolute-orb {
+				position: absolute;
+				width: 270px;
+				height: 270px;
+				border-radius: 999px;
+				filter: blur(42px);
+				opacity: 0.26;
+				pointer-events: none;
+				z-index: 0;
+			}
+			.orb-a {
+				left: -90px;
+				top: 90px;
+				background: #60a5fa;
+			}
+			.orb-b {
+				right: -80px;
+				top: 250px;
+				background: #a78bfa;
+			}
+			.orb-c {
+				right: 18%;
+				bottom: -110px;
+				background: #22d3ee;
+			}
+
+			.top-header {
+				position: relative;
+				z-index: 2;
+				min-height: 260px;
+				padding: 34px;
+				color: white;
+				background:
+					linear-gradient(
+						rgba(255, 255, 255, 0.08) 1px,
+						transparent 1px
+					),
+					linear-gradient(
+						90deg,
+						rgba(255, 255, 255, 0.08) 1px,
+						transparent 1px
+					),
+					linear-gradient(
+						135deg,
+						#0f172a 0%,
+						#4f46e5 58%,
+						#06b6d4 100%
+					);
+				background-size:
+					42px 42px,
+					42px 42px,
+					auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+			}
+
+			.header-center {
+				position: relative;
+				z-index: 2;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 12px;
+				width: min(720px, 100%);
+				margin: 0 auto;
+			}
+
+			.header-mark {
+				width: 64px;
+				height: 64px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 24px;
+				background: rgba(255, 255, 255, 0.16);
+				border: 1px solid rgba(255, 255, 255, 0.24);
+				font-size: 32px;
+				backdrop-filter: blur(14px);
+			}
+
+			.header-center h1 {
+				font-size: clamp(40px, 7vw, 72px);
+				line-height: 1;
+				letter-spacing: -0.08em;
+			}
+
+			.header-center p {
+				max-width: 620px;
+				color: rgba(255, 255, 255, 0.78);
+				font-size: 15px;
+				line-height: 1.75;
+				word-break: keep-all;
+			}
+
+			.nav-bar {
+				position: relative;
+				z-index: 5;
+				width: min(760px, calc(100% - 28px));
+				margin: -26px auto 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 8px;
+				padding: 10px;
+				border: 1px solid var(--line);
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.86);
+				backdrop-filter: blur(22px);
+				box-shadow: 0 16px 40px rgba(15, 23, 42, 0.14);
+			}
+
+			body.dark .nav-bar {
+				background: rgba(15, 23, 42, 0.88);
+			}
+
+			.nav-bar button {
+				padding: 10px 15px;
+				border-radius: 999px;
+				color: var(--muted);
+				background: transparent;
+				font-size: 13px;
+				font-weight: 900;
+				transition: 0.2s ease;
+				white-space: nowrap;
+			}
+			.nav-bar button:hover,
+			.nav-bar button.active {
+				background: var(--ink);
+				color: var(--paper-solid);
+			}
+
+			.app-window {
+				position: relative;
+				z-index: 2;
+				margin: 20px;
+				padding: 18px;
+				border: 1px solid var(--line);
+				border-radius: 34px;
+				background: linear-gradient(
+					180deg,
+					rgba(255, 255, 255, 0.74),
+					rgba(255, 255, 255, 0.46)
+				);
+				box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+			}
+			body.dark .app-window {
+				background: linear-gradient(
+					180deg,
+					rgba(15, 23, 42, 0.78),
+					rgba(15, 23, 42, 0.48)
+				);
+			}
+
+			.app-page {
+				display: none;
+				min-height: 660px;
+				animation: pageIn 0.24s ease both;
+			}
+			.app-page.active {
+				display: block;
+			}
+
+			.page-toolbar {
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-between;
+				gap: 14px;
+				margin-bottom: 18px;
+				padding: 8px 4px 0;
+			}
+			.page-toolbar h3 {
+				font-size: 28px;
+				letter-spacing: -0.065em;
+			}
+			.page-toolbar p {
+				margin-top: 6px;
+				color: var(--muted);
+				font-size: 14px;
+				line-height: 1.65;
+			}
+
+			.search-box {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				min-width: 260px;
+				padding: 11px 13px;
+				border: 1px solid var(--line);
+				border-radius: 17px;
+				background: var(--paper-solid);
+			}
+			.search-box input {
+				width: 100%;
+				background: transparent;
+				color: var(--ink);
+				font-size: 13px;
+			}
+
+			.grid-2 {
+				display: grid;
+				grid-template-columns: minmax(0, 1.35fr) 360px;
+				gap: 18px;
+				align-items: start;
+			}
+
+			.grid-3 {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 14px;
+			}
+			.grid-4 {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				gap: 12px;
+			}
+
+			.panel,
+			.card {
+				border: 1px solid var(--line);
+				border-radius: 30px;
+				background: var(--paper);
+				box-shadow: var(--shadow-soft);
+				backdrop-filter: blur(18px);
+			}
+			.panel {
+				padding: 24px;
+				min-height: 220px;
+			}
+			.card {
+				padding: 18px;
+			}
+
+			.panel-head {
+				display: flex;
+				align-items: flex-start;
+				justify-content: space-between;
+				gap: 14px;
+				margin-bottom: 16px;
+			}
+			.panel-head h4 {
+				font-size: 21px;
+				letter-spacing: -0.05em;
+			}
+			.panel-head p {
+				margin-top: 5px;
+				color: var(--muted);
+				font-size: 13px;
+				line-height: 1.6;
+			}
+
+			.stat-card small {
+				color: var(--muted);
+				font-size: 12px;
+				font-weight: 900;
+			}
+			.stat-card strong {
+				display: block;
+				margin-top: 6px;
+				font-size: 38px;
+				letter-spacing: -0.07em;
+			}
+			.stat-card span {
+				display: block;
+				margin-top: 10px;
+				color: var(--muted);
+				font-size: 12px;
+				font-weight: 750;
+			}
+
+			.chips {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin-bottom: 14px;
+			}
+			.chip {
+				padding: 9px 13px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: var(--paper-solid);
+				color: var(--muted);
+				font-size: 12px;
+				font-weight: 900;
+				transition: 0.2s ease;
+			}
+			.chip:hover,
+			.chip.active {
+				background: var(--ink);
+				color: var(--paper-solid);
+				transform: translateY(-1px);
+			}
+
+			.notice-list,
+			.meal-list,
+			.task-list {
+				display: grid;
+				gap: 12px;
+			}
+			.notice,
+			.meal,
+			.task {
+				position: relative;
+				overflow: hidden;
+				padding: 18px;
+				border: 1px solid var(--line);
+				border-radius: 26px;
+				background: var(--paper-solid);
+				transition: 0.22s ease;
+			}
+			.notice:hover,
+			.meal:hover,
+			.task:hover {
+				transform: translateY(-3px);
+				box-shadow: var(--shadow-soft);
+			}
+			.notice::before {
+				content: "";
+				position: absolute;
+				left: 0;
+				top: 18px;
+				bottom: 18px;
+				width: 4px;
+				border-radius: 999px;
+				background: linear-gradient(
+					180deg,
+					var(--primary),
+					var(--cyan)
+				);
+			}
+			.notice-main {
+				display: flex;
+				justify-content: space-between;
+				gap: 14px;
+			}
+			.meta {
+				display: flex;
+				align-items: center;
+				flex-wrap: wrap;
+				gap: 7px;
+				margin-bottom: 9px;
+			}
+
+			.badge {
+				display: inline-flex;
+				align-items: center;
+				gap: 5px;
+				padding: 6px 10px;
+				border-radius: 999px;
+				background: rgba(79, 70, 229, 0.1);
+				color: var(--primary);
+				font-size: 11px;
+				font-weight: 900;
+			}
+			.badge.warn {
+				background: rgba(249, 115, 22, 0.14);
+				color: #ea580c;
+			}
+			.badge.green {
+				background: rgba(22, 163, 74, 0.14);
+				color: var(--green);
+			}
+			.badge.gray {
+				background: rgba(100, 116, 139, 0.12);
+				color: var(--muted);
+			}
+
+			.notice h4,
+			.meal strong,
+			.task strong {
+				font-size: 17px;
+				line-height: 1.45;
+				letter-spacing: -0.04em;
+			}
+			.notice p,
+			.meal p,
+			.task p {
+				margin-top: 8px;
+				color: var(--muted);
+				font-size: 13px;
+				line-height: 1.75;
+			}
+			.tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 6px;
+				margin-top: 12px;
+			}
+			.tag {
+				padding: 5px 8px;
+				border-radius: 999px;
+				background: rgba(148, 163, 184, 0.13);
+				color: var(--muted);
+				font-size: 11px;
+				font-weight: 800;
+			}
+			.deadline {
+				min-width: 70px;
+				text-align: right;
+			}
+			.deadline small {
+				color: var(--muted);
+				font-size: 11px;
+				font-weight: 900;
+			}
+			.deadline strong {
+				display: block;
+				margin-top: 3px;
+				font-size: 22px;
+				letter-spacing: -0.06em;
+			}
+
+			/* === Notice cards (grid with preview image area) === */
+			.notice-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+				gap: 14px;
+			}
+			.notice-card {
+				display: flex;
+				flex-direction: column;
+				border: 1px solid var(--line);
+				border-radius: 24px;
+				background: var(--paper-solid);
+				overflow: hidden;
+				transition: 0.22s ease;
+			}
+			.notice-card:hover {
+				transform: translateY(-4px);
+				box-shadow: var(--shadow-soft);
+			}
+			.notice-thumb {
+				position: relative;
+				height: 130px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: white;
+				font-size: 44px;
+			}
+			.notice-thumb::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(
+					180deg,
+					transparent 50%,
+					rgba(0, 0, 0, 0.24)
+				);
+			}
+			.notice-thumb > span {
+				position: relative;
+				z-index: 1;
+				filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.25));
+			}
+			.notice-body-area {
+				padding: 16px 18px 18px;
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				flex: 1;
+			}
+			.notice-body-area .meta {
+				margin-bottom: 0;
+			}
+			.notice-body-area h4 {
+				font-size: 16px;
+				line-height: 1.4;
+				letter-spacing: -0.04em;
+			}
+			.notice-body-area p {
+				color: var(--muted);
+				font-size: 13px;
+				line-height: 1.65;
+				flex: 1;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+			.notice-foot {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 10px;
+				margin-top: 2px;
+			}
+			.deadline-pill {
+				padding: 6px 10px;
+				border-radius: 999px;
+				background: rgba(79, 70, 229, 0.12);
+				color: var(--primary);
+				font-size: 11px;
+				font-weight: 900;
+				white-space: nowrap;
+			}
+			.deadline-pill.warn {
+				background: rgba(249, 115, 22, 0.14);
+				color: #ea580c;
+			}
+			.notice-card.no-thumb {
+				border-top: 4px solid var(--primary);
+			}
+			.notice-card.no-thumb.urgent {
+				border-top-color: var(--orange);
+			}
+
+			/* === Restaurant meal cards (grouped per restaurant, stacked meals) === */
+			.restaurant-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+				gap: 16px;
+				align-items: start;
+			}
+			.restaurant-panel {
+				border: 1px solid var(--line);
+				border-radius: 26px;
+				background: var(--paper-solid);
+				overflow: hidden;
+				box-shadow: var(--shadow-soft);
+			}
+			.restaurant-head {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				padding: 18px 20px;
+				color: white;
+			}
+			.restaurant-head.gradient-a {
+				background: linear-gradient(135deg, #4f46e5, #7c3aed);
+			}
+			.restaurant-head.gradient-b {
+				background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+			}
+			.restaurant-icon {
+				width: 46px;
+				height: 46px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 14px;
+				background: rgba(255, 255, 255, 0.2);
+				font-size: 22px;
+			}
+			.restaurant-head h4 {
+				font-size: 17px;
+				letter-spacing: -0.04em;
+			}
+			.restaurant-head p {
+				margin-top: 3px;
+				color: rgba(255, 255, 255, 0.82);
+				font-size: 12px;
+			}
+			.restaurant-meals {
+				display: grid;
+			}
+			.meal-row {
+				display: grid;
+				grid-template-columns: 56px 1fr auto;
+				align-items: center;
+				gap: 14px;
+				padding: 14px 18px;
+				border-top: 1px solid var(--line);
+			}
+			.meal-row:first-child {
+				border-top: 0;
+			}
+			.meal-type {
+				padding: 6px 10px;
+				border-radius: 999px;
+				background: rgba(79, 70, 229, 0.12);
+				color: var(--primary);
+				font-size: 11px;
+				font-weight: 900;
+				text-align: center;
+			}
+			.meal-type.brk {
+				background: rgba(249, 115, 22, 0.16);
+				color: #ea580c;
+			}
+			.meal-type.lun {
+				background: rgba(22, 163, 74, 0.16);
+				color: var(--green);
+			}
+			.meal-type.din {
+				background: rgba(124, 58, 237, 0.16);
+				color: #7c3aed;
+			}
+			.meal-info strong {
+				display: block;
+				font-size: 14px;
+				letter-spacing: -0.03em;
+			}
+			.meal-info p {
+				margin-top: 3px;
+				color: var(--muted);
+				font-size: 12px;
+				line-height: 1.55;
+			}
+			.meal-time {
+				color: var(--muted);
+				font-size: 11px;
+				font-weight: 800;
+				white-space: nowrap;
+			}
+
+			/* === Time Table === */
+			.week-nav {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin-bottom: 16px;
+				flex-wrap: wrap;
+			}
+			.week-btn {
+				width: 36px;
+				height: 36px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 12px;
+				border: 1px solid var(--line);
+				background: var(--paper-solid);
+				color: var(--ink);
+				font-size: 16px;
+				font-weight: 900;
+				transition: 0.2s ease;
+			}
+			.week-btn:hover {
+				background: var(--ink);
+				color: var(--paper-solid);
+			}
+			.week-btn.today-btn {
+				width: auto;
+				padding: 0 14px;
+				font-size: 12px;
+			}
+			.week-label {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				text-align: center;
+			}
+			.week-label small {
+				color: var(--muted);
+				font-size: 11px;
+				font-weight: 800;
+			}
+			.week-label strong {
+				font-size: 16px;
+				letter-spacing: -0.04em;
+				margin-top: 2px;
+			}
+			.add-task-btn {
+				padding: 10px 16px;
+				border-radius: 14px;
+				background: var(--ink);
+				color: var(--paper-solid);
+				font-weight: 900;
+				font-size: 12px;
+			}
+
+			.timetable {
+				display: grid;
+				grid-template-columns: 60px repeat(5, 1fr);
+				background: var(--line);
+				border-radius: 22px;
+				overflow: hidden;
+				border: 1px solid var(--line);
+				gap: 1px;
+			}
+			.tt-corner,
+			.tt-head,
+			.tt-time,
+			.tt-cell {
+				background: var(--paper-solid);
+				position: relative;
+			}
+			.tt-corner {
+				min-height: 50px;
+			}
+			.tt-head {
+				padding: 10px 6px;
+				text-align: center;
+				font-size: 12px;
+				font-weight: 900;
+				color: var(--muted);
+				line-height: 1.4;
+			}
+			.tt-head.today {
+				background: rgba(79, 70, 229, 0.08);
+				color: var(--primary);
+			}
+			.tt-head small {
+				display: block;
+				font-size: 10px;
+				font-weight: 700;
+				margin-top: 2px;
+				opacity: 0.8;
+			}
+			.tt-time {
+				padding: 8px 6px;
+				text-align: center;
+				font-size: 11px;
+				color: var(--muted);
+				font-weight: 800;
+			}
+			.tt-cell {
+				min-height: 56px;
+				padding: 3px;
+			}
+			.tt-class {
+				padding: 8px 10px;
+				border-radius: 12px;
+				background: linear-gradient(135deg, var(--primary), #7c3aed);
+				color: white;
+				font-size: 11px;
+				line-height: 1.35;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				gap: 2px;
+				overflow: hidden;
+			}
+			.tt-class.color-b {
+				background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+			}
+			.tt-class.color-c {
+				background: linear-gradient(135deg, #f97316, #ef4444);
+			}
+			.tt-class.color-d {
+				background: linear-gradient(135deg, #16a34a, #059669);
+			}
+			.tt-class.color-e {
+				background: linear-gradient(135deg, #ec4899, #db2777);
+			}
+			.tt-class strong {
+				font-size: 12px;
+				letter-spacing: -0.02em;
+			}
+			.tt-class small {
+				color: rgba(255, 255, 255, 0.8);
+				font-size: 10px;
+				font-weight: 800;
+			}
+			.tt-task {
+				padding: 6px 10px;
+				border-radius: 10px;
+				background: rgba(249, 115, 22, 0.18);
+				color: #ea580c;
+				font-size: 10px;
+				font-weight: 900;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				gap: 2px;
+				overflow: hidden;
+			}
+			.tt-task strong {
+				font-size: 11px;
+				letter-spacing: -0.02em;
+				display: block;
+			}
+			.tt-task small {
+				color: rgba(234, 88, 12, 0.8);
+				font-size: 9px;
+				font-weight: 800;
+			}
+
+			/* === Modal === */
+			.modal-overlay {
+				position: fixed;
+				inset: 0;
+				z-index: 200;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				background: rgba(15, 23, 42, 0.52);
+				backdrop-filter: blur(8px);
+				padding: 20px;
+			}
+			.modal-overlay.show {
+				display: flex;
+				animation: pageIn 0.2s ease;
+			}
+			.modal-box {
+				width: min(440px, 100%);
+				padding: 26px;
+				border-radius: 28px;
+				background: var(--paper-solid);
+				box-shadow: var(--shadow);
+				border: 1px solid var(--line);
+			}
+			.modal-head {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 18px;
+			}
+			.modal-head h4 {
+				font-size: 22px;
+				letter-spacing: -0.05em;
+			}
+			.modal-close {
+				width: 32px;
+				height: 32px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 10px;
+				background: rgba(148, 163, 184, 0.14);
+				color: var(--muted);
+				font-size: 14px;
+			}
+			.modal-form {
+				display: grid;
+				gap: 14px;
+			}
+			.modal-form label {
+				display: grid;
+				gap: 6px;
+				color: var(--muted);
+				font-size: 12px;
+				font-weight: 800;
+			}
+			.modal-form input,
+			.modal-form select {
+				padding: 12px 13px;
+				border-radius: 14px;
+				background: var(--paper-solid);
+				border: 1px solid var(--line);
+				color: var(--ink);
+				font-size: 14px;
+			}
+			body.dark .modal-form input,
+			body.dark .modal-form select {
+				background: rgba(255, 255, 255, 0.04);
+			}
+			.modal-actions {
+				display: flex;
+				gap: 10px;
+				margin-top: 6px;
+			}
+			.modal-actions button {
+				flex: 1;
+				padding: 12px;
+				border-radius: 14px;
+				font-weight: 900;
+				font-size: 13px;
+			}
+			.btn-primary {
+				background: var(--ink);
+				color: var(--paper-solid);
+			}
+			.btn-secondary {
+				background: rgba(148, 163, 184, 0.18);
+				color: var(--ink);
+			}
+
+			.security-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 12px;
+			}
+
+			.footer {
+				padding: 18px 22px 24px;
+				border-top: 1px solid var(--line);
+				color: var(--muted);
+				font-size: 13px;
+				text-align: center;
+			}
+
+			.toast {
+				position: fixed;
+				right: 24px;
+				bottom: 24px;
+				z-index: 100;
+				max-width: 340px;
+				padding: 14px 16px;
+				border-radius: 18px;
+				background: var(--ink);
+				color: var(--paper-solid);
+				box-shadow: var(--shadow);
+				font-size: 13px;
+				font-weight: 850;
+				opacity: 0;
+				transform: translateY(18px);
+				pointer-events: none;
+				transition: 0.25s ease;
+			}
+			.toast.show {
+				opacity: 1;
+				transform: translateY(0);
+			}
+			.empty {
+				padding: 20px;
+				border-radius: 22px;
+				background: var(--paper-solid);
+				color: var(--muted);
+				text-align: center;
+				border: 1px dashed var(--line);
+			}
+
+			@keyframes pageIn {
+				from {
+					opacity: 0;
+					transform: translateY(8px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			/* === Header user actions === */
+			.header-actions {
+				position: absolute;
+				top: 22px;
+				right: 26px;
+				z-index: 3;
+				display: flex;
+				gap: 8px;
+				align-items: center;
+			}
+			.header-btn {
+				padding: 10px 14px;
+				border-radius: 14px;
+				background: rgba(255, 255, 255, 0.18);
+				border: 1px solid rgba(255, 255, 255, 0.26);
+				color: white;
+				font-size: 12px;
+				font-weight: 900;
+				backdrop-filter: blur(14px);
+				transition: 0.2s ease;
+			}
+			.header-btn:hover {
+				background: rgba(255, 255, 255, 0.28);
+				transform: translateY(-1px);
+			}
+			.user-chip {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 6px 14px 6px 6px;
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.18);
+				border: 1px solid rgba(255, 255, 255, 0.26);
+				backdrop-filter: blur(14px);
+			}
+			.user-chip strong {
+				color: white;
+				font-size: 12px;
+				font-weight: 900;
+				letter-spacing: -0.02em;
+			}
+			.user-chip small {
+				display: block;
+				color: rgba(255, 255, 255, 0.72);
+				font-size: 10px;
+				font-weight: 800;
+			}
+			.user-avatar {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				background: linear-gradient(135deg, #f97316, #ec4899);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: white;
+				font-weight: 900;
+				font-size: 13px;
+			}
+
+			/* === Meal date nav === */
+			.meal-date-nav {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin-bottom: 18px;
+				padding: 10px 12px;
+				border: 1px solid var(--line);
+				border-radius: 20px;
+				background: var(--paper-solid);
+			}
+			.meal-date-label {
+				flex: 1;
+				text-align: center;
+			}
+			.meal-date-label strong {
+				font-size: 15px;
+				letter-spacing: -0.04em;
+			}
+			.meal-date-label small {
+				display: block;
+				color: var(--muted);
+				font-size: 11px;
+				font-weight: 800;
+				margin-top: 2px;
+			}
+
+			/* === Modal tabs (auth) === */
+			.modal-tabs {
+				display: flex;
+				gap: 4px;
+				padding: 4px;
+				margin-bottom: 16px;
+				border-radius: 14px;
+				background: rgba(148, 163, 184, 0.14);
+			}
+			.modal-tabs button {
+				flex: 1;
+				padding: 10px;
+				border-radius: 11px;
+				background: transparent;
+				color: var(--muted);
+				font-weight: 900;
+				font-size: 13px;
+				transition: 0.15s ease;
+			}
+			.modal-tabs button.active {
+				background: var(--paper-solid);
+				color: var(--ink);
+				box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+			}
+			body.dark .modal-tabs button.active {
+				background: rgba(255, 255, 255, 0.06);
+			}
+			.auth-msg {
+				padding: 10px 12px;
+				border-radius: 12px;
+				background: rgba(239, 68, 68, 0.12);
+				color: #b91c1c;
+				font-size: 12px;
+				font-weight: 800;
+				display: none;
+			}
+			.auth-msg.show {
+				display: block;
+			}
+			.auth-msg.info {
+				background: rgba(79, 70, 229, 0.12);
+				color: var(--primary);
+			}
+
+			.login-cta {
+				padding: 14px;
+				border-radius: 16px;
+				border: 1px dashed var(--line);
+				background: rgba(79, 70, 229, 0.06);
+				color: var(--muted);
+				font-size: 12px;
+				text-align: center;
+				font-weight: 800;
+			}
+			.login-cta button {
+				margin-top: 8px;
+				padding: 8px 14px;
+				border-radius: 10px;
+				background: var(--ink);
+				color: var(--paper-solid);
+				font-size: 12px;
+				font-weight: 900;
+			}
+
+			@media (max-width: 1040px) {
+				.grid-2 {
+					grid-template-columns: 1fr;
+				}
+				.grid-3,
+				.grid-4 {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				.security-grid {
+					grid-template-columns: 1fr;
+				}
+				.timetable {
+					grid-template-columns: 48px repeat(5, minmax(80px, 1fr));
+					overflow-x: auto;
+				}
+			}
+
+			@media (max-width: 760px) {
+				.wrap {
+					width: min(100% - 22px, 1180px);
+					padding-top: 12px;
+				}
+				.top-header {
+					padding: 24px;
+					min-height: 230px;
+				}
+				.header-center h1 {
+					font-size: 42px;
+				}
+				.header-center p {
+					font-size: 14px;
+				}
+				.nav-bar {
+					width: calc(100% - 20px);
+					justify-content: center;
+					overflow-x: auto;
+					border-radius: 24px;
+					flex-wrap: wrap;
+				}
+				.app-window {
+					margin: 12px;
+					padding: 12px;
+					border-radius: 26px;
+				}
+				.page-toolbar {
+					align-items: flex-start;
+					flex-direction: column;
+				}
+				.search-box {
+					min-width: 0;
+					width: 100%;
+				}
+				.grid-3,
+				.grid-4 {
+					grid-template-columns: 1fr;
+				}
+				.notice-grid {
+					grid-template-columns: 1fr;
+				}
+				.restaurant-grid {
+					grid-template-columns: 1fr;
+				}
+				.timetable {
+					grid-template-columns: 42px repeat(5, minmax(68px, 1fr));
+					font-size: 11px;
+				}
+				.tt-class {
+					padding: 6px;
+				}
+				.tt-class strong {
+					font-size: 11px;
+				}
+				.week-nav {
+					gap: 6px;
+				}
+				.week-nav .add-task-btn {
+					order: 99;
+					flex-basis: 100%;
+				}
+				.notice-main {
+					display: block;
+				}
+				.deadline {
+					margin-top: 12px;
+					text-align: left;
+				}
+				.toast {
+					left: 14px;
+					right: 14px;
+					max-width: none;
+				}
+				.header-actions {
+					top: 14px;
+					right: 14px;
+				}
+				.header-btn {
+					font-size: 11px;
+					padding: 8px 12px;
+				}
+				.user-chip {
+					padding: 5px 12px 5px 5px;
+				}
+				.user-avatar {
+					width: 26px;
+					height: 26px;
+					font-size: 12px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="page-shell">
+				<div class="absolute-orb orb-a"></div>
+				<div class="absolute-orb orb-b"></div>
+				<div class="absolute-orb orb-c"></div>
+
+				<header class="top-header" id="home">
+					<div class="header-center">
+						<div class="header-mark">⌁</div>
+						<h1>CampusLens</h1>
+						<p>
+							교내 공지, 학식, 시간표, 과제 일정을 한 화면에서
+							관리하는 학생용 웹앱
+						</p>
+					</div>
+					<div class="header-actions" id="headerActions"></div>
+				</header>
+
+				<nav class="nav-bar" aria-label="앱 페이지 이동">
+					<button class="active" data-page="dashboard">홈</button>
+					<button data-page="notices">공지·대회</button>
+					<button data-page="meals">학식</button>
+					<button data-page="schedule">시간표</button>
+				</nav>
+
+				<main class="app-window">
+					<section class="app-page active" id="page-dashboard">
+						<div class="page-toolbar">
+							<div>
+								<h3>오늘의 브리핑</h3>
+								<p>
+									마감 임박 공지, 개인 일정, 학식 정보를 한
+									번에 확인합니다.
+								</p>
+							</div>
+						</div>
+						<div class="grid-4" id="stats"></div>
+						<section class="panel" style="margin-top: 18px">
+							<div class="panel-head">
+								<div>
+									<h4>마감 임박 공지</h4>
+									<p>중요도가 높은 공지를 우선 표시합니다.</p>
+								</div>
+							</div>
+							<div
+								class="notice-list"
+								id="urgentNoticeList"
+							></div>
+						</section>
+						<div class="grid-2" style="margin-top: 18px">
+							<section class="panel">
+								<div class="panel-head">
+									<div>
+										<h4>오늘의 학식</h4>
+										<p>
+											식당별 점심 메뉴를 미리 확인합니다.
+										</p>
+									</div>
+								</div>
+								<div class="task-list" id="todayMealList"></div>
+							</section>
+							<section class="panel">
+								<div class="panel-head">
+									<div>
+										<h4>다가오는 일정</h4>
+										<p>
+											마감일 기준 가장 임박한 3개
+											일정입니다.
+										</p>
+									</div>
+								</div>
+								<div
+									class="task-list"
+									id="upcomingTaskList"
+								></div>
+							</section>
+						</div>
+					</section>
+
+					<section class="app-page" id="page-notices">
+						<div class="page-toolbar">
+							<div>
+								<h3>교내 공지 및 학과별 정보</h3>
+								<p>
+									카테고리, 마감일, 관련 학과를 기준으로
+									정보를 정리합니다.
+								</p>
+							</div>
+							<label class="search-box"
+								><span>⌕</span
+								><input
+									id="searchInput"
+									type="search"
+									placeholder="공지, 자격증, 과제 검색"
+							/></label>
+						</div>
+						<div class="chips" id="chips"></div>
+						<div class="notice-grid" id="noticeList"></div>
+					</section>
+
+					<section class="app-page" id="page-meals">
+						<div class="page-toolbar">
+							<div>
+								<h3>식당별 학식 메뉴</h3>
+								<p>
+									감성코어와 경기대 드림타워 식당의 메뉴를
+									식당별로 모아 확인합니다.
+								</p>
+							</div>
+						</div>
+						<div class="meal-date-nav">
+							<button
+								class="week-btn"
+								id="prevMealDateBtn"
+								aria-label="이전 날"
+							>
+								‹
+							</button>
+							<button
+								class="week-btn today-btn"
+								id="todayMealBtn"
+							>
+								오늘
+							</button>
+							<div class="meal-date-label">
+								<strong id="mealDateLabel">날짜</strong>
+								<small id="mealDateRelative">오늘</small>
+							</div>
+							<button
+								class="week-btn"
+								id="nextMealDateBtn"
+								aria-label="다음 날"
+							>
+								›
+							</button>
+						</div>
+						<div class="restaurant-grid" id="restaurantList"></div>
+					</section>
+
+					<section class="app-page" id="page-schedule">
+						<div class="page-toolbar">
+							<div>
+								<h3>시간표 및 과제·시험 일정</h3>
+								<p>
+									주차별 수업 일정과 개인 일정을 한 화면에서
+									관리합니다.
+								</p>
+							</div>
+						</div>
+						<section class="panel">
+							<div class="week-nav">
+								<button
+									class="week-btn"
+									id="prevWeekBtn"
+									aria-label="이전 주"
+								>
+									‹
+								</button>
+								<button
+									class="week-btn today-btn"
+									id="todayBtn"
+								>
+									오늘
+								</button>
+								<div class="week-label">
+									<small id="weekRange">주차</small>
+									<strong id="weekLabel"
+										>5월 18일 - 5월 22일</strong
+									>
+								</div>
+								<button
+									class="week-btn"
+									id="nextWeekBtn"
+									aria-label="다음 주"
+								>
+									›
+								</button>
+								<button
+									class="add-task-btn"
+									id="openTaskModalBtn"
+								>
+									+ 일정 추가
+								</button>
+							</div>
+							<div class="timetable" id="timetableGrid"></div>
+						</section>
+						<div class="grid-2" style="margin-top: 18px">
+							<section class="panel">
+								<div class="panel-head">
+									<div>
+										<h4>이번 주 일정</h4>
+										<p>
+											현재 주차의 과제·시험을 마감일
+											순으로 정렬합니다.
+										</p>
+									</div>
+								</div>
+								<div class="task-list" id="taskList"></div>
+							</section>
+							<section class="panel">
+								<div class="panel-head">
+									<div>
+										<h4>보안 설계</h4>
+										<p>
+											LMS/KUTIS 계정 정보는 수집하지
+											않습니다.
+										</p>
+									</div>
+								</div>
+								<div class="security-grid">
+									<article class="card">
+										<span class="badge green">원칙</span
+										><strong
+											style="
+												display: block;
+												margin-top: 10px;
+											"
+											>ID/PW 미수집</strong
+										>
+										<p
+											style="
+												margin-top: 8px;
+												color: var(--muted);
+												font-size: 13px;
+												line-height: 1.7;
+											"
+										>
+											로그인 정보와 세션 토큰을 서버에
+											저장하지 않습니다.
+										</p>
+									</article>
+									<article class="card">
+										<span class="badge gray">방식</span
+										><strong
+											style="
+												display: block;
+												margin-top: 10px;
+											"
+											>직접 입력 + 공개 정보</strong
+										>
+										<p
+											style="
+												margin-top: 8px;
+												color: var(--muted);
+												font-size: 13px;
+												line-height: 1.7;
+											"
+										>
+											공식 API가 없을 때는 과목 일정 자동
+											크롤링을 제외합니다.
+										</p>
+									</article>
+								</div>
+							</section>
+						</div>
+					</section>
+				</main>
+
+				<footer class="footer">
+					CampusLens · 교내 공지, 학식, 시간표, 개인 일정을 한
+					화면에서 관리하는 학생용 웹앱 프로토타입
+				</footer>
+			</div>
+		</div>
+
+		<div
+			class="modal-overlay"
+			id="authModal"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="authModalTitle"
+		>
+			<div class="modal-box">
+				<div class="modal-head">
+					<h4 id="authModalTitle">로그인</h4>
+					<button
+						class="modal-close"
+						id="authCloseBtn"
+						aria-label="닫기"
+					>
+						✕
+					</button>
+				</div>
+				<div class="modal-tabs" role="tablist">
+					<button class="active" type="button" data-auth-tab="login">
+						로그인
+					</button>
+					<button type="button" data-auth-tab="signup">
+						회원가입
+					</button>
+				</div>
+				<form class="modal-form" id="authForm">
+					<label data-only="signup" style="display: none"
+						>이름
+						<input
+							name="name"
+							placeholder="홍길동"
+							autocomplete="name"
+						/>
+					</label>
+					<label
+						>이메일
+						<input
+							name="email"
+							type="email"
+							placeholder="student@example.com"
+							required
+							autocomplete="email"
+						/>
+					</label>
+					<label
+						>비밀번호
+						<input
+							name="password"
+							type="password"
+							placeholder="6자 이상"
+							required
+							autocomplete="current-password"
+							minlength="6"
+						/>
+					</label>
+					<div class="auth-msg" id="authMsg"></div>
+					<div class="modal-actions">
+						<button
+							type="button"
+							class="btn-secondary"
+							id="authCancelBtn"
+						>
+							취소
+						</button>
+						<button
+							type="submit"
+							class="btn-primary"
+							id="authSubmitBtn"
+						>
+							로그인
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div
+			class="modal-overlay"
+			id="taskModal"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="taskModalTitle"
+		>
+			<div class="modal-box">
+				<div class="modal-head">
+					<h4 id="taskModalTitle">일정 추가</h4>
+					<button
+						class="modal-close"
+						id="modalCloseBtn"
+						aria-label="닫기"
+					>
+						✕
+					</button>
+				</div>
+				<form class="modal-form" id="taskForm">
+					<label
+						>일정명
+						<input
+							name="title"
+							placeholder="예: 발표 자료 제출"
+							required
+						/>
+					</label>
+					<label
+						>과목 / 카테고리
+						<input
+							name="course"
+							placeholder="예: 웹프로그래밍"
+							required
+						/>
+					</label>
+					<label
+						>유형
+						<select name="type">
+							<option>과제</option>
+							<option>시험</option>
+							<option>발표</option>
+							<option>프로젝트</option>
+						</select>
+					</label>
+					<label
+						>마감 날짜
+						<input name="due" type="date" required />
+					</label>
+					<label
+						>시간 (선택)
+						<input name="time" type="time" />
+					</label>
+					<div class="modal-actions">
+						<button
+							type="button"
+							class="btn-secondary"
+							id="modalCancelBtn"
+						>
+							취소
+						</button>
+						<button type="submit" class="btn-primary">추가</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="toast" id="toast"></div>
+
+		<script>
+			const API_BASE =
+				location.hostname === "localhost" ||
+				location.hostname === "127.0.0.1"
+					? `${location.protocol}//${location.hostname}:3001`
+					: "http://localhost:3001";
+			const TOKEN_KEY = "campuslens_token";
+
+			const LOCAL_NOTICES = [
+				{
+					title: "2026학년도 학과별 프로그래밍 경진대회 참가 신청 안내",
+					category: "대회",
+					dept: "AI컴퓨터공학부",
+					deadline: "05.12",
+					summary:
+						"전공 관련 경진대회 참가자를 모집합니다. 팀 구성 후 신청서를 제출해야 하며, 수상 시 비교과 마일리지가 지급됩니다.",
+					image: "linear-gradient(135deg, #4f46e5, #06b6d4)",
+					icon: "💻",
+					tags: ["전공", "대회", "마감임박"],
+					urgent: true,
+				},
+				{
+					title: "정보처리기사 자격증 대비 특강 모집",
+					category: "자격증",
+					dept: "전체",
+					deadline: "05.18",
+					summary:
+						"정보처리기사 필기 대비 특강 신청을 받습니다. 선착순 모집이며 신청 인원에 따라 분반이 조정됩니다.",
+					image: "linear-gradient(135deg, #16a34a, #059669)",
+					icon: "📘",
+					tags: ["자격증", "특강"],
+					urgent: false,
+				},
+				{
+					title: "SW중심대학 비교과 프로그램 참여자 모집",
+					category: "비교과",
+					dept: "전체",
+					deadline: "05.20",
+					summary:
+						"프로젝트 기반 비교과 프로그램 참여자를 모집합니다. 수료 시 마일리지 및 수료증이 제공됩니다.",
+					image: "linear-gradient(135deg, #f97316, #ef4444)",
+					icon: "🎯",
+					tags: ["SW", "비교과"],
+					urgent: false,
+				},
+				{
+					title: "2026-1학기 중간 강의평가 실시 안내",
+					category: "학사",
+					dept: "전체",
+					deadline: "05.10",
+					summary:
+						"수강 중인 과목에 대한 중간 강의평가를 기간 내에 진행해야 합니다. 평가 기간 이후에는 참여가 불가능합니다.",
+					image: null,
+					icon: null,
+					tags: ["학사", "필수"],
+					urgent: true,
+				},
+				{
+					title: "여름방학 글로벌 인턴십 프로그램 안내",
+					category: "비교과",
+					dept: "전체",
+					deadline: "06.05",
+					summary:
+						"해외 파트너 기업과 연계한 인턴십 프로그램 신청 안내입니다. 어학 점수와 학점 기준을 충족해야 합니다.",
+					image: "linear-gradient(135deg, #ec4899, #db2777)",
+					icon: "✈️",
+					tags: ["글로벌", "인턴십"],
+					urgent: false,
+				},
+				{
+					title: "교내 학술대회 논문 초안 제출 기한 안내",
+					category: "학사",
+					dept: "AI컴퓨터공학부",
+					deadline: "05.31",
+					summary:
+						"학과 학술대회에 제출할 논문 초안을 마감일 전까지 제출해야 합니다. 양식은 학과 사이트에서 다운로드합니다.",
+					image: null,
+					icon: null,
+					tags: ["학술", "논문"],
+					urgent: false,
+				},
+			];
+
+			const restaurants = [
+				{
+					id: "core",
+					name: "감성코어",
+					desc: "교양관 1층 · 학생 전용",
+					icon: "☕",
+					gradient: "gradient-a",
+					weeklyMeals: {
+						0: [],
+						1: [
+							{
+								type: "점심",
+								menu: "치킨 마요덮밥",
+								desc: "샐러드, 미소국, 단무지",
+								time: "11:00 - 14:00",
+							},
+						],
+						2: [
+							{
+								type: "점심",
+								menu: "돈까스 카레덮밥",
+								desc: "양배추 샐러드, 단무지",
+								time: "11:00 - 14:00",
+							},
+						],
+						3: [
+							{
+								type: "점심",
+								menu: "불고기 비빔밥",
+								desc: "계란 후라이, 콩나물국",
+								time: "11:00 - 14:00",
+							},
+						],
+						4: [
+							{
+								type: "점심",
+								menu: "새우 볶음밥",
+								desc: "군만두 2개, 계란국",
+								time: "11:00 - 14:00",
+							},
+						],
+						5: [
+							{
+								type: "점심",
+								menu: "제육 덮밥",
+								desc: "양상추 샐러드, 된장국",
+								time: "11:00 - 14:00",
+							},
+						],
+						6: [],
+					},
+				},
+				{
+					id: "dream",
+					name: "경기대 드림타워 식당",
+					desc: "기숙사 1층 · 입주생 우선",
+					icon: "🏠",
+					gradient: "gradient-b",
+					weeklyMeals: {
+						0: [
+							{
+								type: "아침",
+								menu: "브런치 토스트",
+								desc: "우유, 과일 컵",
+								time: "08:00 - 10:00",
+							},
+							{
+								type: "점심",
+								menu: "치킨 스튜",
+								desc: "흰쌀밥, 옥수수 샐러드",
+								time: "11:30 - 13:30",
+							},
+							{
+								type: "저녁",
+								menu: "순두부 찌개",
+								desc: "잡곡밥, 김치, 계란말이",
+								time: "17:30 - 19:30",
+							},
+						],
+						1: [
+							{
+								type: "아침",
+								menu: "토스트 + 스크램블",
+								desc: "샐러드, 우유 또는 주스",
+								time: "07:30 - 09:00",
+							},
+							{
+								type: "점심",
+								menu: "제육볶음 정식",
+								desc: "잡곡밥, 미역국, 계란말이",
+								time: "11:30 - 13:30",
+							},
+							{
+								type: "저녁",
+								menu: "김치찌개",
+								desc: "흰쌀밥, 계란찜, 김",
+								time: "17:30 - 19:30",
+							},
+						],
+						2: [
+							{
+								type: "아침",
+								menu: "단호박죽",
+								desc: "백김치, 두유",
+								time: "07:30 - 09:00",
+							},
+							{
+								type: "점심",
+								menu: "닭갈비 덮밥",
+								desc: "오이무침, 콩나물국",
+								time: "11:30 - 13:30",
+							},
+							{
+								type: "저녁",
+								menu: "된장찌개",
+								desc: "잡곡밥, 멸치볶음, 김",
+								time: "17:30 - 19:30",
+							},
+						],
+						3: [
+							{
+								type: "아침",
+								menu: "베이글 + 크림치즈",
+								desc: "우유, 사과",
+								time: "07:30 - 09:00",
+							},
+							{
+								type: "점심",
+								menu: "카레라이스",
+								desc: "단무지, 미역국",
+								time: "11:30 - 13:30",
+							},
+							{
+								type: "저녁",
+								menu: "순두부찌개",
+								desc: "잡곡밥, 깍두기, 김자반",
+								time: "17:30 - 19:30",
+							},
+						],
+						4: [
+							{
+								type: "아침",
+								menu: "샌드위치 + 우유",
+								desc: "바나나",
+								time: "07:30 - 09:00",
+							},
+							{
+								type: "점심",
+								menu: "비빔밥",
+								desc: "고추장, 콩나물국",
+								time: "11:30 - 13:30",
+							},
+							{
+								type: "저녁",
+								menu: "부대찌개",
+								desc: "잡곡밥, 무생채, 김",
+								time: "17:30 - 19:30",
+							},
+						],
+						5: [
+							{
+								type: "아침",
+								menu: "오트밀 + 과일",
+								desc: "우유, 견과류",
+								time: "07:30 - 09:00",
+							},
+							{
+								type: "점심",
+								menu: "돈까스 정식",
+								desc: "양배추 샐러드, 미소국",
+								time: "11:30 - 13:30",
+							},
+							{
+								type: "저녁",
+								menu: "육개장",
+								desc: "잡곡밥, 깍두기, 김",
+								time: "17:30 - 19:30",
+							},
+						],
+						6: [
+							{
+								type: "아침",
+								menu: "팬케이크",
+								desc: "메이플 시럽, 우유",
+								time: "08:00 - 10:00",
+							},
+							{
+								type: "점심",
+								menu: "김치볶음밥",
+								desc: "계란 후라이, 미소국",
+								time: "11:30 - 13:30",
+							},
+							{
+								type: "저녁",
+								menu: "제육 정식",
+								desc: "잡곡밥, 상추, 된장국",
+								time: "17:30 - 19:30",
+							},
+						],
+					},
+				},
+			];
+
+			const classes = [
+				{
+					day: "월",
+					time: "10:00",
+					duration: 2,
+					name: "웹프로그래밍",
+					room: "8501",
+					color: "",
+				},
+				{
+					day: "화",
+					time: "13:00",
+					duration: 2,
+					name: "자료구조",
+					room: "8302",
+					color: "color-b",
+				},
+				{
+					day: "수",
+					time: "15:00",
+					duration: 3,
+					name: "컴퓨터구조",
+					room: "8404",
+					color: "color-c",
+				},
+				{
+					day: "목",
+					time: "11:00",
+					duration: 2,
+					name: "캡스톤디자인",
+					room: "8207",
+					color: "color-d",
+				},
+				{
+					day: "금",
+					time: "14:00",
+					duration: 2,
+					name: "알고리즘",
+					room: "8301",
+					color: "color-e",
+				},
+			];
+
+			const LOCAL_TASKS = [
+				{
+					title: "학술대회 논문 초안 제출",
+					course: "웹프로그래밍",
+					type: "과제",
+					due: "2026-05-31",
+					time: "",
+				},
+				{
+					title: "중간 강의평가 참여",
+					course: "전체 과목",
+					type: "학사",
+					due: "2026-05-22",
+					time: "",
+				},
+				{
+					title: "반응형 UI 구현 결과 제출",
+					course: "웹프로그래밍",
+					type: "프로젝트",
+					due: "2026-05-21",
+					time: "23:59",
+				},
+			];
+
+			const HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+			const DAYS = ["월", "화", "수", "목", "금"];
+			const DOW_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
+			const TYPE_TO_MEAL_CLASS = {
+				아침: "brk",
+				점심: "lun",
+				저녁: "din",
+			};
+
+			const $id = (id) => document.getElementById(id);
+
+			function startOfDay(date) {
+				const d = new Date(date);
+				d.setHours(0, 0, 0, 0);
+				return d;
+			}
+
+			function mondayOf(date) {
+				const d = startOfDay(date);
+				const day = d.getDay();
+				const diff = day === 0 ? -6 : 1 - day;
+				d.setDate(d.getDate() + diff);
+				return d;
+			}
+
+			function addDays(date, n) {
+				const d = new Date(date);
+				d.setDate(d.getDate() + n);
+				return d;
+			}
+
+			function sameDay(a, b) {
+				return (
+					a.getFullYear() === b.getFullYear() &&
+					a.getMonth() === b.getMonth() &&
+					a.getDate() === b.getDate()
+				);
+			}
+
+			function formatMD(date) {
+				const d = date instanceof Date ? date : new Date(date);
+				if (Number.isNaN(d.getTime())) return String(date);
+				return `${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+			}
+
+			function formatLongDate(date) {
+				return `${date.getMonth() + 1}월 ${date.getDate()}일 (${DOW_LABELS[date.getDay()]})`;
+			}
+
+			function relativeDayLabel(date) {
+				const today = startOfDay(new Date());
+				const diff = Math.round(
+					(startOfDay(date) - today) / (24 * 60 * 60 * 1000),
+				);
+				if (diff === 0) return "오늘";
+				if (diff === 1) return "내일";
+				if (diff === -1) return "어제";
+				return diff > 0 ? `${diff}일 후` : `${Math.abs(diff)}일 전`;
+			}
+
+			const state = {
+				page: "dashboard",
+				filter: "전체",
+				query: "",
+				weekStart: mondayOf(new Date()),
+				mealDate: startOfDay(new Date()),
+				authTab: "login",
+				user: null,
+				token: localStorage.getItem(TOKEN_KEY) || "",
+				notices: LOCAL_NOTICES.slice(),
+				tasks: LOCAL_TASKS.slice(),
+			};
+
+			function toast(msg) {
+				const t = $id("toast");
+				t.textContent = msg;
+				t.classList.add("show");
+				clearTimeout(toast.timer);
+				toast.timer = setTimeout(
+					() => t.classList.remove("show"),
+					2200,
+				);
+			}
+
+			async function apiFetch(path, options = {}) {
+				const headers = {
+					"Content-Type": "application/json",
+					...(options.headers || {}),
+				};
+				if (state.token && !headers.Authorization) {
+					headers.Authorization = `Bearer ${state.token}`;
+				}
+				const res = await fetch(`${API_BASE}${path}`, {
+					credentials: "omit",
+					...options,
+					headers,
+				});
+				let data = null;
+				try {
+					data = await res.json();
+				} catch (_) {}
+				if (!res.ok) {
+					const error = new Error(
+						(data && data.message) || `요청 실패 (${res.status})`,
+					);
+					error.status = res.status;
+					error.code = data && data.error;
+					throw error;
+				}
+				return data;
+			}
+
+			async function refreshSession() {
+				if (!state.token) {
+					state.user = null;
+					return false;
+				}
+				try {
+					const { user } = await apiFetch("/api/auth/me");
+					state.user = user;
+					return true;
+				} catch (error) {
+					state.user = null;
+					state.token = "";
+					localStorage.removeItem(TOKEN_KEY);
+					return false;
+				}
+			}
+
+			async function loginUser(email, password) {
+				const data = await apiFetch("/api/auth/login", {
+					method: "POST",
+					body: JSON.stringify({ email, password }),
+				});
+				state.user = data.user;
+				state.token = data.token;
+				localStorage.setItem(TOKEN_KEY, state.token);
+				return data;
+			}
+
+			async function signupUser(email, password, name) {
+				const data = await apiFetch("/api/auth/signup", {
+					method: "POST",
+					body: JSON.stringify({ email, password, name }),
+				});
+				state.user = data.user;
+				state.token = data.token;
+				localStorage.setItem(TOKEN_KEY, state.token);
+				return data;
+			}
+
+			async function logoutUser() {
+				try {
+					await apiFetch("/api/auth/logout", { method: "POST" });
+				} catch (_) {}
+				state.user = null;
+				state.token = "";
+				localStorage.removeItem(TOKEN_KEY);
+			}
+
+			async function loadNotices() {
+				try {
+					const { notices: apiNotices } = await apiFetch(
+						"/api/public-data/notices",
+					);
+					if (Array.isArray(apiNotices) && apiNotices.length) {
+						state.notices = apiNotices.map((n) => ({
+							title: n.title || "",
+							category: n.category || "공지",
+							dept: n.dept || "전체",
+							deadline: n.deadline || "",
+							summary: n.summary || "",
+							image: n.image || null,
+							icon: n.icon || null,
+							tags: Array.isArray(n.tags) ? n.tags : [],
+							urgent: Boolean(n.urgent),
+						}));
+						return;
+					}
+				} catch (error) {
+					console.warn("공지 API 로드 실패, 로컬 데이터 사용", error);
+				}
+				state.notices = LOCAL_NOTICES.slice();
+			}
+
+			async function loadTasks() {
+				if (state.user) {
+					try {
+						const { tasks } = await apiFetch("/api/tasks");
+						state.tasks = (tasks || []).map((t) => ({
+							id: t.id,
+							title: t.title,
+							course: t.course || "",
+							type: t.type || "과제",
+							due: t.due,
+							time: t.time || "",
+						}));
+						return;
+					} catch (error) {
+						console.warn("일정 API 로드 실패", error);
+					}
+				}
+				state.tasks = LOCAL_TASKS.slice();
+			}
+
+			async function createTask(payload) {
+				if (state.user) {
+					const { task } = await apiFetch("/api/tasks", {
+						method: "POST",
+						body: JSON.stringify(payload),
+					});
+					state.tasks.push({
+						id: task.id,
+						title: task.title,
+						course: task.course || "",
+						type: task.type || "과제",
+						due: task.due,
+						time: task.time || "",
+					});
+					return task;
+				}
+				state.tasks.push({ ...payload });
+				return payload;
+			}
+
+			function getMealsForDate(restaurant, date) {
+				const dow = date.getDay();
+				return (
+					(restaurant.weeklyMeals && restaurant.weeklyMeals[dow]) ||
+					[]
+				);
+			}
+
+			function switchPage(page) {
+				state.page = page;
+				document
+					.querySelectorAll(".app-page")
+					.forEach((section) => section.classList.remove("active"));
+				document.querySelector(`#page-${page}`).classList.add("active");
+				document
+					.querySelectorAll(".nav-bar button")
+					.forEach((btn) =>
+						btn.classList.toggle(
+							"active",
+							btn.dataset.page === page,
+						),
+					);
+			}
+
+			function renderStats() {
+				const today = new Date();
+				const totalMeals = restaurants.reduce(
+					(sum, r) => sum + getMealsForDate(r, today).length,
+					0,
+				);
+				const data = [
+					["수집 공지", state.notices.length, "공개 공지 기준"],
+					[
+						"마감 임박",
+						state.notices.filter((n) => n.urgent).length,
+						"7일 이내 확인",
+					],
+					["등록 과목", classes.length, "사용자 시간표"],
+					["오늘 메뉴", totalMeals, `${restaurants.length}개 식당`],
+				];
+				$id("stats").innerHTML = data
+					.map(
+						(d) =>
+							`<article class="card stat-card"><small>${d[0]}</small><strong>${d[1]}</strong><span>${d[2]}</span></article>`,
+					)
+					.join("");
+			}
+
+			function renderChips() {
+				const cats = ["전체", "학사", "대회", "자격증", "비교과"];
+				$id("chips").innerHTML = cats
+					.map(
+						(c) =>
+							`<button class="chip ${state.filter === c ? "active" : ""}" data-cat="${c}">${c}</button>`,
+					)
+					.join("");
+			}
+
+			function noticeCardTemplate(n) {
+				const hasImage = !!n.image;
+				const cls =
+					`notice-card ${hasImage ? "" : "no-thumb"} ${!hasImage && n.urgent ? "urgent" : ""}`.trim();
+				const thumb = hasImage
+					? `<div class="notice-thumb" style="background:${n.image}"><span>${n.icon || ""}</span></div>`
+					: "";
+				const deadlineCls = n.urgent
+					? "deadline-pill warn"
+					: "deadline-pill";
+				return `<article class="${cls}">
+        ${thumb}
+        <div class="notice-body-area">
+          <div class="meta">
+            <span class="badge ${n.urgent ? "warn" : ""}">${n.category}</span>
+            <span class="badge gray">${n.dept}</span>
+          </div>
+          <h4>${n.title}</h4>
+          <p>${n.summary}</p>
+          <div class="notice-foot">
+            <div class="tags">${n.tags.map((t) => `<span class="tag">#${t}</span>`).join("")}</div>
+            <span class="${deadlineCls}">마감 ${n.deadline}</span>
+          </div>
+        </div>
+      </article>`;
+			}
+
+			function renderNotices() {
+				const q = state.query.trim().toLowerCase();
+				const filtered = state.notices.filter((n) => {
+					const filterOk =
+						state.filter === "전체" || n.category === state.filter;
+					const text = [
+						n.title,
+						n.category,
+						n.dept,
+						n.summary,
+						...(n.tags || []),
+					]
+						.join(" ")
+						.toLowerCase();
+					return filterOk && (!q || text.includes(q));
+				});
+				$id("noticeList").innerHTML = filtered.length
+					? filtered.map(noticeCardTemplate).join("")
+					: `<div class="empty" style="grid-column:1/-1">검색 결과가 없습니다.</div>`;
+
+				const urgent = state.notices.filter((n) => n.urgent);
+				$id("urgentNoticeList").innerHTML = urgent.length
+					? urgent
+							.map(
+								(n) =>
+									`<article class="notice"><div class="notice-main"><div><div class="meta"><span class="badge warn">${n.category}</span><span class="badge gray">${n.dept}</span></div><h4>${n.title}</h4><p>${n.summary}</p></div><div class="deadline"><small>마감</small><strong>${n.deadline}</strong></div></div></article>`,
+							)
+							.join("")
+					: `<div class="empty">마감 임박 공지가 없습니다.</div>`;
+			}
+
+			function renderRestaurants() {
+				$id("mealDateLabel").textContent = formatLongDate(
+					state.mealDate,
+				);
+				$id("mealDateRelative").textContent = relativeDayLabel(
+					state.mealDate,
+				);
+
+				$id("restaurantList").innerHTML = restaurants
+					.map((r) => {
+						const meals = getMealsForDate(r, state.mealDate);
+						const mealsHtml = meals.length
+							? meals
+									.map(
+										(m) => `
+              <article class="meal-row">
+                <span class="meal-type ${TYPE_TO_MEAL_CLASS[m.type] || ""}">${m.type}</span>
+                <div class="meal-info">
+                  <strong>${m.menu}</strong>
+                  <p>${m.desc}</p>
+                </div>
+                <span class="meal-time">${m.time}</span>
+              </article>`,
+									)
+									.join("")
+							: `<div class="empty" style="margin:18px">선택한 날짜는 운영하지 않습니다.</div>`;
+						return `
+          <section class="restaurant-panel">
+            <header class="restaurant-head ${r.gradient}">
+              <div class="restaurant-icon">${r.icon}</div>
+              <div>
+                <h4>${r.name}</h4>
+                <p>${r.desc}</p>
+              </div>
+            </header>
+            <div class="restaurant-meals">${mealsHtml}</div>
+          </section>`;
+					})
+					.join("");
+			}
+
+			function renderTodayMeals() {
+				const today = new Date();
+				const items = [];
+				restaurants.forEach((r) => {
+					const lunch = getMealsForDate(r, today).find(
+						(m) => m.type === "점심",
+					);
+					if (lunch) items.push({ place: r.name, meal: lunch });
+				});
+				$id("todayMealList").innerHTML = items.length
+					? items
+							.map(
+								(it) =>
+									`<article class="task"><span class="badge green">점심</span><strong style="display:block;margin-top:8px">${it.place} · ${it.meal.menu}</strong><p>${it.meal.desc} · ${it.meal.time}</p></article>`,
+							)
+							.join("")
+					: `<div class="empty">오늘 운영하는 식당이 없습니다.</div>`;
+			}
+
+			function renderUpcomingTasks() {
+				const upcoming = state.tasks
+					.slice()
+					.sort((a, b) => new Date(a.due) - new Date(b.due))
+					.slice(0, 3);
+				$id("upcomingTaskList").innerHTML = upcoming.length
+					? upcoming
+							.map(
+								(t) =>
+									`<article class="task"><span class="badge">${t.type}</span><strong style="display:block;margin-top:8px">${t.title}</strong><p>${t.course ? t.course + " · " : ""}마감 ${formatMD(t.due)}${t.time ? " " + t.time : ""}</p></article>`,
+							)
+							.join("")
+					: `<div class="empty">등록된 일정이 없습니다.</div>`;
+			}
+
+			function dayColIndex(dayLabel) {
+				const idx = DAYS.indexOf(dayLabel);
+				return idx >= 0 ? idx + 2 : -1;
+			}
+
+			function hourRowIndex(time) {
+				const hour = parseInt(time.split(":")[0], 10);
+				const idx = HOURS.indexOf(hour);
+				return idx >= 0 ? idx + 2 : -1;
+			}
+
+			function renderTimeTable() {
+				const start = state.weekStart;
+				const end = addDays(start, 4);
+				const today = new Date();
+				today.setHours(0, 0, 0, 0);
+
+				$id("weekLabel").textContent =
+					`${start.getMonth() + 1}월 ${start.getDate()}일 - ${end.getMonth() + 1}월 ${end.getDate()}일`;
+				const weeksFromToday = Math.round(
+					(start - mondayOf(today)) / (7 * 24 * 60 * 60 * 1000),
+				);
+				$id("weekRange").textContent =
+					weeksFromToday === 0
+						? "이번 주"
+						: weeksFromToday > 0
+							? `${weeksFromToday}주 후`
+							: `${Math.abs(weeksFromToday)}주 전`;
+
+				const grid = $id("timetableGrid");
+				grid.style.gridTemplateRows = `50px repeat(${HOURS.length}, 56px)`;
+
+				let html = `<div class="tt-corner"></div>`;
+				DAYS.forEach((d, i) => {
+					const dayDate = addDays(start, i);
+					const isToday = sameDay(dayDate, today);
+					html += `<div class="tt-head ${isToday ? "today" : ""}">${d}<small>${dayDate.getMonth() + 1}/${dayDate.getDate()}</small></div>`;
+				});
+
+				HOURS.forEach((h, i) => {
+					html += `<div class="tt-time" style="grid-column:1;grid-row:${i + 2}">${String(h).padStart(2, "0")}:00</div>`;
+					DAYS.forEach((d, j) => {
+						html += `<div class="tt-cell" style="grid-column:${j + 2};grid-row:${i + 2}"></div>`;
+					});
+				});
+
+				classes.forEach((c) => {
+					const col = dayColIndex(c.day);
+					const row = hourRowIndex(c.time);
+					if (col < 0 || row < 0) return;
+					html += `<div class="tt-class ${c.color || ""}" style="grid-column:${col};grid-row:${row} / span ${c.duration}">
+          <strong>${c.name}</strong>
+          <small>${c.time} · ${c.room}</small>
+        </div>`;
+				});
+
+				const weekTasks = state.tasks.filter((t) => {
+					const d = new Date(t.due);
+					d.setHours(0, 0, 0, 0);
+					return d >= start && d <= addDays(start, 4);
+				});
+				weekTasks.forEach((t) => {
+					const due = new Date(t.due);
+					const dayIdx = (due.getDay() + 6) % 7;
+					if (dayIdx > 4) return;
+					const col = dayIdx + 2;
+					const hour = t.time
+						? parseInt(t.time.split(":")[0], 10)
+						: 18;
+					const hIdx = HOURS.indexOf(hour);
+					const row = hIdx >= 0 ? hIdx + 2 : HOURS.length + 1;
+					html += `<div class="tt-task" style="grid-column:${col};grid-row:${row}">
+          <strong>${t.title}</strong>
+          <small>${t.type}${t.time ? " · " + t.time : ""}</small>
+        </div>`;
+				});
+
+				grid.innerHTML = html;
+			}
+
+			function renderTasks() {
+				const start = state.weekStart;
+				const end = addDays(start, 6);
+				const weekTasks = state.tasks
+					.filter((t) => {
+						const d = new Date(t.due);
+						return d >= start && d <= end;
+					})
+					.sort((a, b) => new Date(a.due) - new Date(b.due));
+
+				const list = weekTasks.length
+					? weekTasks
+							.map(
+								(t) =>
+									`<article class="task"><span class="badge">${t.type}</span><strong style="display:block;margin-top:8px">${t.title}</strong><p>${t.course ? t.course + " · " : ""}마감 ${formatMD(t.due)}${t.time ? " " + t.time : ""}</p></article>`,
+							)
+							.join("")
+					: `<div class="empty">이번 주에 등록된 일정이 없습니다.</div>`;
+				const cta = state.user
+					? ""
+					: `<div class="login-cta">로그인하면 일정을 서버에 저장할 수 있어요.<br><button type="button" id="taskLoginCta">로그인</button></div>`;
+				$id("taskList").innerHTML = list + cta;
+				if (!state.user) {
+					const btn = $id("taskLoginCta");
+					if (btn)
+						btn.addEventListener("click", () =>
+							openAuthModal("login"),
+						);
+				}
+				renderUpcomingTasks();
+			}
+
+			function renderAuthUI() {
+				const actions = $id("headerActions");
+				if (state.user) {
+					const initial = (state.user.name || state.user.email || "U")
+						.trim()
+						.charAt(0)
+						.toUpperCase();
+					actions.innerHTML = `
+          <div class="user-chip">
+            <div class="user-avatar">${initial}</div>
+            <strong>${state.user.name || state.user.email}</strong>
+          </div>
+          <button class="header-btn" id="logoutBtn">로그아웃</button>
+        `;
+					$id("logoutBtn").addEventListener("click", async () => {
+						await logoutUser();
+						await loadTasks();
+						renderAuthUI();
+						renderStats();
+						renderTimeTable();
+						renderTasks();
+						toast("로그아웃되었습니다.");
+					});
+				} else {
+					actions.innerHTML = `<button class="header-btn" id="loginBtn">로그인</button>`;
+					$id("loginBtn").addEventListener("click", () =>
+						openAuthModal("login"),
+					);
+				}
+			}
+
+			function openTaskModal() {
+				if (!state.user) {
+					toast("로그인하면 일정이 서버에 저장됩니다.");
+				}
+				$id("taskModal").classList.add("show");
+				setTimeout(
+					() =>
+						$id("taskForm")
+							.querySelector("input[name='title']")
+							.focus(),
+					50,
+				);
+			}
+
+			function closeTaskModal() {
+				$id("taskModal").classList.remove("show");
+				$id("taskForm").reset();
+			}
+
+			function setAuthTab(tab) {
+				state.authTab = tab;
+				document
+					.querySelectorAll(".modal-tabs button[data-auth-tab]")
+					.forEach((btn) =>
+						btn.classList.toggle(
+							"active",
+							btn.dataset.authTab === tab,
+						),
+					);
+				$id("authModalTitle").textContent =
+					tab === "login" ? "로그인" : "회원가입";
+				$id("authSubmitBtn").textContent =
+					tab === "login" ? "로그인" : "가입하기";
+				document
+					.querySelectorAll('#authForm [data-only="signup"]')
+					.forEach(
+						(el) =>
+							(el.style.display = tab === "signup" ? "" : "none"),
+					);
+				const nameInput = document.querySelector(
+					'#authForm input[name="name"]',
+				);
+				if (nameInput) nameInput.required = tab === "signup";
+				const pwInput = document.querySelector(
+					'#authForm input[name="password"]',
+				);
+				if (pwInput)
+					pwInput.setAttribute(
+						"autocomplete",
+						tab === "login" ? "current-password" : "new-password",
+					);
+				setAuthMsg("");
+			}
+
+			function openAuthModal(tab = "login") {
+				setAuthTab(tab);
+				$id("authModal").classList.add("show");
+				setTimeout(
+					() =>
+						$id("authForm")
+							.querySelector("input[name='email']")
+							.focus(),
+					50,
+				);
+			}
+
+			function closeAuthModal() {
+				$id("authModal").classList.remove("show");
+				$id("authForm").reset();
+				setAuthMsg("");
+			}
+
+			function setAuthMsg(msg, type = "error") {
+				const el = $id("authMsg");
+				if (!msg) {
+					el.classList.remove("show");
+					el.textContent = "";
+					return;
+				}
+				el.textContent = msg;
+				el.classList.toggle("info", type === "info");
+				el.classList.add("show");
+			}
+
+			function setupEvents() {
+				document.querySelectorAll(".nav-bar button").forEach((btn) => {
+					btn.addEventListener("click", () =>
+						switchPage(btn.dataset.page),
+					);
+				});
+
+				$id("searchInput").addEventListener("input", (e) => {
+					state.query = e.target.value;
+					renderNotices();
+				});
+
+				$(document).on("click", ".chip[data-cat]", function () {
+					state.filter = $(this).data("cat");
+					renderChips();
+					renderNotices();
+				});
+
+				$("#prevWeekBtn").on("click", () => {
+					state.weekStart = addDays(state.weekStart, -7);
+					renderTimeTable();
+					renderTasks();
+				});
+				$("#nextWeekBtn").on("click", () => {
+					state.weekStart = addDays(state.weekStart, 7);
+					renderTimeTable();
+					renderTasks();
+				});
+				$("#todayBtn").on("click", () => {
+					state.weekStart = mondayOf(new Date());
+					renderTimeTable();
+					renderTasks();
+				});
+
+				$("#prevMealDateBtn").on("click", () => {
+					state.mealDate = addDays(state.mealDate, -1);
+					renderRestaurants();
+				});
+				$("#nextMealDateBtn").on("click", () => {
+					state.mealDate = addDays(state.mealDate, 1);
+					renderRestaurants();
+				});
+				$("#todayMealBtn").on("click", () => {
+					state.mealDate = startOfDay(new Date());
+					renderRestaurants();
+				});
+
+				$("#openTaskModalBtn").on("click", openTaskModal);
+				$("#modalCloseBtn, #modalCancelBtn").on(
+					"click",
+					closeTaskModal,
+				);
+				$("#taskModal").on("click", function (e) {
+					if (e.target === this) closeTaskModal();
+				});
+
+				$("#authCloseBtn, #authCancelBtn").on("click", closeAuthModal);
+				$("#authModal").on("click", function (e) {
+					if (e.target === this) closeAuthModal();
+				});
+				$(document).on(
+					"click",
+					".modal-tabs button[data-auth-tab]",
+					function () {
+						setAuthTab(this.dataset.authTab);
+					},
+				);
+
+				document.addEventListener("keydown", (e) => {
+					if (e.key !== "Escape") return;
+					if ($id("taskModal").classList.contains("show"))
+						closeTaskModal();
+					if ($id("authModal").classList.contains("show"))
+						closeAuthModal();
+				});
+
+				$("#taskForm").on("submit", async function (e) {
+					e.preventDefault();
+					const form = new FormData(e.currentTarget);
+					const payload = {
+						title: (form.get("title") || "").trim(),
+						course: (form.get("course") || "").trim(),
+						type: form.get("type") || "과제",
+						due: form.get("due"),
+						time: form.get("time") || "",
+					};
+					try {
+						await createTask(payload);
+						closeTaskModal();
+						renderTimeTable();
+						renderTasks();
+						toast(
+							state.user
+								? "일정이 서버에 저장되었습니다."
+								: "일정이 추가되었습니다 (로컬).",
+						);
+					} catch (error) {
+						toast(error.message || "일정 추가 실패");
+					}
+				});
+
+				$("#authForm").on("submit", async function (e) {
+					e.preventDefault();
+					const form = new FormData(e.currentTarget);
+					const email = (form.get("email") || "").trim();
+					const password = form.get("password") || "";
+					const name = (form.get("name") || "").trim();
+					try {
+						setAuthMsg("");
+						if (state.authTab === "login") {
+							await loginUser(email, password);
+						} else {
+							if (!name) {
+								setAuthMsg("이름을 입력해주세요.");
+								return;
+							}
+							await signupUser(email, password, name);
+						}
+						closeAuthModal();
+						await loadTasks();
+						renderAuthUI();
+						renderStats();
+						renderTimeTable();
+						renderTasks();
+						toast(
+							`${state.user.name || state.user.email}님, 환영합니다.`,
+						);
+					} catch (error) {
+						setAuthMsg(error.message || "요청 실패");
+					}
+				});
+			}
+
+			async function init() {
+				renderAuthUI();
+				renderStats();
+				renderChips();
+				renderNotices();
+				renderRestaurants();
+				renderTodayMeals();
+				renderTimeTable();
+				renderTasks();
+				setupEvents();
+
+				await refreshSession();
+				await Promise.all([loadNotices(), loadTasks()]);
+				renderAuthUI();
+				renderStats();
+				renderNotices();
+				renderTimeTable();
+				renderTasks();
+			}
+
+			init();
+		</script>
+	</body>
+</html>

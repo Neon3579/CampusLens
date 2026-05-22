@@ -27,7 +27,7 @@ export const state = {
 
 /**
  * restaurants
- * 공개 학식 API에서 로드한 식당 목록이다. ES module live binding을 위해 let으로 export한다.
+ * 공개 학식 API에서 로드한 식당 목록이다.
  */
 export let restaurants = [];
 

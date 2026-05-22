@@ -29,32 +29,31 @@ React, Vue, Tailwind, Bootstrap 같은 프론트엔드 프레임워크는 사용
 ```text
 CampusLens/
 ├─ README.md
-├─ server/
-│  ├─ index.js                    # Express 서버 진입점
-│  ├─ config.js                   # HOST, PORT, CORS, 세션, Ollama 설정
-│  ├─ main.html                   # 정적 프론트엔드 앱 셸
-│  ├─ package.json
-│  ├─ .env.example
-│  ├─ assets/
-│  │  ├─ styles.css
-│  │  └─ js/
-│  │     ├─ app.js                # 앱 초기화
-│  │     ├─ api.js                # API 요청 래퍼
-│  │     ├─ dataService.js        # API 응답을 state로 변환
-│  │     ├─ renderers.js          # 화면 렌더링
-│  │     ├─ components.js         # 반복 HTML 템플릿
-│  │     ├─ events.js             # 이벤트 연결
-│  │     ├─ state.js              # 프론트엔드 상태
-│  │     └─ date.js               # 날짜 유틸
-│  ├─ routes/                     # API 라우터
-│  ├─ services/                   # 인증, 저장소, 크롤러, Ollama 연동
-│  ├─ validators/                 # 요청 검증
-│  ├─ middleware/                 # CORS, 에러 처리
-│  ├─ scripts/
-│  │  └─ crawlNotices.js          # 공지 크롤링 CLI
-│  └─ data/                       # 런타임 JSON 저장소, gitignore 대상
-└─ presentation/
-   └─ slides.html                 # 발표용 슬라이드, gitignore 대상
+└─ server/
+   ├─ index.js                    # Express 서버 진입점
+   ├─ config.js                   # HOST, PORT, CORS, 세션, Ollama 설정
+   ├─ main.html                   # 정적 프론트엔드 앱 셸
+   ├─ package.json
+   ├─ .env.example
+   ├─ assets/
+   │  ├─ styles.css
+   │  └─ js/
+   │     ├─ app.js                # 앱 초기화
+   │     ├─ api.js                # API 요청 래퍼
+   │     ├─ dataService.js        # API 응답을 state로 변환
+   │     ├─ renderers.js          # 화면 렌더링
+   │     ├─ components.js         # 반복 HTML 템플릿
+   │     ├─ events.js             # 이벤트 연결
+   │     ├─ state.js              # 프론트엔드 상태
+   │     └─ date.js               # 날짜 유틸
+   ├─ routes/                     # API 라우터
+   ├─ services/                   # 인증, 저장소, 크롤러, Ollama 연동
+   ├─ validators/                 # 요청 검증
+   ├─ middleware/                 # CORS, 에러 처리
+   ├─ scripts/
+   │  └─ crawlNotices.js          # 공지 크롤링 CLI
+   └─ data/                       # 런타임 JSON 저장소, gitignore 대상
+
 ```
 
 ## 설치 방법

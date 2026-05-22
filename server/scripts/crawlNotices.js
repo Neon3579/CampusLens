@@ -1,7 +1,20 @@
+/**
+ * File: server/scripts/crawlNotices.js
+ * Purpose: 공개 공지 페이지를 크롤링하고 Ollama 또는 fallback 정규화로 notices.json을 갱신하는 CLI 스크립트다.
+ * Notes: npm run crawl -- --url <url> 형태로 실행되며 raw-notices.json과 notices.json을 함께 갱신한다.
+ */
+
 import { crawlPublicNotices } from "../services/crawler.js";
 import { fallbackNormalizeNotices, normalizeNoticesWithOllama } from "../services/ollama.js";
 import { writeStore } from "../services/jsonStore.js";
 
+/**
+ * parseArgs
+ * CLI 인자를 key/value 옵션 객체로 변환한다.
+ *
+ * @param {Array<string>} argv - process.argv.slice(2) 형태의 인자 배열
+ * @returns {object} 크롤링과 정규화 옵션
+ */
 function parseArgs(argv) {
   const args = {
     selector: "a",
@@ -40,6 +53,10 @@ function parseArgs(argv) {
   return args;
 }
 
+/**
+ * printHelp
+ * 사용자가 필요한 옵션을 빠르게 확인할 수 있도록 CLI 도움말을 출력한다.
+ */
 function printHelp() {
   console.log(`
 CampusLens public notice crawler
@@ -61,6 +78,10 @@ Example:
 `.trim());
 }
 
+/**
+ * main
+ * 인자 파싱, 크롤링, raw 저장, Ollama 정규화, fallback 처리, 최종 저장을 순서대로 실행한다.
+ */
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 

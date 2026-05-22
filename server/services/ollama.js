@@ -1,6 +1,15 @@
-const DEFAULT_OLLAMA_URL = process.env.OLLAMA_URL || "http://localhost:11434";
-const DEFAULT_OLLAMA_MODEL = process.env.OLLAMA_MODEL || "llama3.1";
+/**
+ * File: server/services/ollama.js
+ * Purpose: 크롤링된 공지 후보를 CampusLens 앱이 쓰는 구조화된 공지 JSON으로 정규화한다.
+ * Notes: Ollama 호출 실패 시에도 데모가 동작하도록 규칙 기반 fallback 정규화 함수를 함께 제공한다.
+ */
 
+import { config } from "../config.js";
+
+/**
+ * noticeListSchema
+ * Ollama JSON mode에 전달하는 공지 목록 응답 스키마이다.
+ */
 export const noticeListSchema = {
   type: "object",
   properties: {
@@ -28,6 +37,13 @@ export const noticeListSchema = {
   required: ["notices"]
 };
 
+/**
+ * coerceNotice
+ * LLM 또는 fallback 결과의 필드를 안전한 기본값과 제한된 배열 길이로 보정한다.
+ *
+ * @param {object} item - 정규화 후보 공지 객체
+ * @returns {object} 앱에서 사용하는 공지 객체
+ */
 function coerceNotice(item) {
   return {
     title: String(item.title || "").trim(),
@@ -41,6 +57,13 @@ function coerceNotice(item) {
   };
 }
 
+/**
+ * fallbackNormalizeNotices
+ * LLM 없이 raw notice를 최소 표시 가능한 공지 구조로 변환한다.
+ *
+ * @param {Array<object>} rawItems - crawler.js가 수집한 raw notice 배열
+ * @returns {Array<object>} 정규화된 공지 배열
+ */
 export function fallbackNormalizeNotices(rawItems = []) {
   return rawItems.map(item => ({
     title: item.title,
@@ -54,9 +77,17 @@ export function fallbackNormalizeNotices(rawItems = []) {
   })).map(coerceNotice);
 }
 
+/**
+ * normalizeNoticesWithOllama
+ * Ollama chat API에 raw notice 배열을 전달하고 스키마에 맞는 공지 목록을 받아 보정한다.
+ *
+ * @param {Array<object>} rawItems - 정규화할 raw notice 배열
+ * @param {object} options - Ollama URL과 모델 override
+ * @returns {Promise<Array<object>>} 정규화된 공지 배열
+ */
 export async function normalizeNoticesWithOllama(rawItems, options = {}) {
-  const ollamaUrl = options.ollamaUrl || DEFAULT_OLLAMA_URL;
-  const model = options.model || DEFAULT_OLLAMA_MODEL;
+  const ollamaUrl = options.ollamaUrl || config.ollama.url;
+  const model = options.model || config.ollama.model;
 
   if (!Array.isArray(rawItems) || rawItems.length === 0) {
     return [];

@@ -1,3 +1,9 @@
+/**
+ * File: server/routes/auth.js
+ * Purpose: 회원가입, 로그인, 로그아웃, 현재 사용자 조회 API를 정의한다.
+ * Notes: 사용자 생성과 세션 발급은 authService/jsonStore에 위임하고, 라우터는 HTTP 상태와 응답 포맷을 담당한다.
+ */
+
 import { Router } from "express";
 
 import {
@@ -10,32 +16,18 @@ import {
   verifyPassword
 } from "../services/authService.js";
 import { createId, readStore, updateStore } from "../services/jsonStore.js";
+import { validateSignupInput } from "../validators/authValidator.js";
 
 const router = Router();
 
-function validateSignup({ email, password, name }) {
-  const normalizedEmail = normalizeEmail(email);
-  const displayName = String(name || "").trim();
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
-    return "올바른 이메일을 입력하세요.";
-  }
-
-  if (String(password || "").length < 6) {
-    return "비밀번호는 6자 이상이어야 합니다.";
-  }
-
-  if (!displayName) {
-    return "이름을 입력하세요.";
-  }
-
-  return "";
-}
-
+/**
+ * POST /api/auth/signup
+ * 새 사용자를 생성하고 즉시 로그인 세션을 발급한다.
+ */
 router.post("/signup", async (req, res, next) => {
   try {
     const { email, password, name } = req.body || {};
-    const validationError = validateSignup({ email, password, name });
+    const validationError = validateSignupInput({ email, password, name });
 
     if (validationError) {
       res.status(400).json({ error: "INVALID_SIGNUP", message: validationError });
@@ -69,6 +61,10 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
+/**
+ * POST /api/auth/login
+ * 이메일과 비밀번호를 검증한 뒤 새 세션 토큰을 발급한다.
+ */
 router.post("/login", async (req, res, next) => {
   try {
     const email = normalizeEmail(req.body?.email);
@@ -88,6 +84,10 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+/**
+ * POST /api/auth/logout
+ * 현재 요청의 세션을 삭제하고 클라이언트 쿠키를 만료시킨다.
+ */
 router.post("/logout", async (req, res, next) => {
   try {
     await destroySession(req, res);
@@ -97,6 +97,10 @@ router.post("/logout", async (req, res, next) => {
   }
 });
 
+/**
+ * GET /api/auth/me
+ * requireAuth가 채운 req.user를 공개 사용자 형태로 반환한다.
+ */
 router.get("/me", requireAuth, (req, res) => {
   res.json({ user: publicUser(req.user) });
 });

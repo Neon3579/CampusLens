@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">CampusLens header icon</title>
+  <desc id="desc">A simple modern campus search lens mark in a rounded square.</desc>
+  <defs>
+    <linearGradient id="tile" x1="20" y1="16" x2="112" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.48" stop-color="#eff6ff"/>
+      <stop offset="1" stop-color="#ccfbf1"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="32" y1="27" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#06b6d4"/>
+      <stop offset="0.58" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="softShadow" x="-18%" y="-14%" width="136%" height="144%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <rect x="10" y="10" width="108" height="108" rx="30" fill="url(#tile)" filter="url(#softShadow)"/>
+  <path d="M23 83c16-7 28-7 44 0s27 7 38 1" fill="none" stroke="#bae6fd" stroke-width="7" stroke-linecap="round" opacity="0.95"/>
+  <circle cx="58" cy="57" r="27" fill="#ffffff" stroke="url(#accent)" stroke-width="9"/>
+  <path d="M75 75l22 22" fill="none" stroke="url(#accent)" stroke-width="11" stroke-linecap="round"/>
+  <path d="M42 58h32" fill="none" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+  <path d="M47 55l11-10 11 10" fill="none" stroke="#0f172a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M50 65v-8M58 65v-8M66 65v-8" fill="none" stroke="#4f46e5" stroke-width="4.5" stroke-linecap="round"/>
+  <circle cx="88" cy="34" r="6" fill="#06b6d4"/>
+</svg>

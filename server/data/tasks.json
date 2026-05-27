@@ -1,0 +1,38 @@
+[
+  {
+    "id": "task_616b8b4f-088f-4674-99fd-7af89c1e193e",
+    "userId": "user_094c6fd3-7003-459d-bab8-7b6040032525",
+    "title": "학술대회 영상 자료 제출",
+    "course": "웹프로그래밍",
+    "type": "과제",
+    "due": "2026-05-22",
+    "time": "23:59",
+    "completed": false,
+    "createdAt": "2026-05-19T00:13:35.408Z",
+    "updatedAt": "2026-05-19T00:13:35.408Z"
+  },
+  {
+    "id": "task_29a50291-4a0a-4624-b111-fcaba00cdafc",
+    "userId": "user_af3e8109-d229-4692-ab0d-0608cc9a00a3",
+    "title": "테스트 일정",
+    "course": "테스트",
+    "type": "과제",
+    "due": "2026-05-25",
+    "time": "15:00",
+    "completed": false,
+    "createdAt": "2026-05-19T00:32:44.194Z",
+    "updatedAt": "2026-05-19T00:32:44.194Z"
+  },
+  {
+    "id": "task_d2d5caa7-3171-40b6-9fa3-1507cf7350af",
+    "userId": "user_094c6fd3-7003-459d-bab8-7b6040032525",
+    "title": "쪽지시험",
+    "course": "웹프로그래밍",
+    "type": "시험",
+    "due": "2026-05-18",
+    "time": "",
+    "completed": false,
+    "createdAt": "2026-05-19T00:35:02.879Z",
+    "updatedAt": "2026-05-19T00:35:02.879Z"
+  }
+]

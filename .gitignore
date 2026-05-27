@@ -1,0 +1,7 @@
+server/node_modules/
+server/data/
+docs
+.DS_Store
+presentation
+.claude
+.평가기준.png

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "user_094c6fd3-7003-459d-bab8-7b6040032525",
+    "email": "student@kyonggi.ac.kr",
+    "name": "홍길동",
+    "passwordHash": "scrypt:7d674013253fc15e2e17ca5706fe5c63:fc55e854f397ff9e95b05ec29fd6a25cba2d90bb999cb90d194c780f88f1c8f6a99e7295dc8df46004e2be3731b265cea14570d512fb99eed6a64443547f694d",
+    "createdAt": "2026-05-19T00:12:39.672Z",
+    "updatedAt": "2026-05-19T00:12:39.672Z"
+  },
+  {
+    "id": "user_af3e8109-d229-4692-ab0d-0608cc9a00a3",
+    "email": "test01@test.com",
+    "name": "테스트",
+    "passwordHash": "scrypt:3e0a8f8a4ba1a9ef4359d8d30acf73b4:a3abad9b5738e67e88e8d4b8a432b60117f429037e6ea8721471eaed9f62f43202da4b0a7db06c4da92aa1d8ca773724f24e92e8b94d9fbf7ec3f63549ab8608",
+    "createdAt": "2026-05-19T00:32:44.104Z",
+    "updatedAt": "2026-05-19T00:32:44.104Z"
+  }
+]

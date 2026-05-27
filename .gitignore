@@ -1,5 +1,5 @@
-server/node_modules/
-server/data/
+backend/node_modules/
+backend/data/
 docs
 .DS_Store
 presentation

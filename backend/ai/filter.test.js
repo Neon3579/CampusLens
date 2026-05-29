@@ -63,3 +63,19 @@ test("source는 최소 필드만 포함", () => {
   assert.deepEqual(Object.keys(out[0]).sort(),
     ["date", "deadline", "dept", "id", "title", "type", "url"].sort());
 });
+
+test("urgent: true는 긴급 공지만 반환", () => {
+  const out = filterSources({ dataset: "notices", urgent: true }, NOTICES, RESTAURANTS, new Date(2026, 4, 29));
+  assert.equal(out.length, 1);
+  assert.equal(out[0].id, "n1");
+});
+
+test("MAX_RESULTS 상한 8개 적용", () => {
+  const many = Array.from({ length: 12 }, (_, i) => ({
+    id: `m${i}`, title: `공지 ${i}`, category: "학사", dept: "학사팀",
+    date: "2026-05-20", deadline: null, url: `http://x/m${i}`,
+    summary: "", tags: [], urgent: false,
+  }));
+  const out = filterSources({ dataset: "notices" }, many, [], new Date(2026, 4, 29));
+  assert.equal(out.length, 8);
+});

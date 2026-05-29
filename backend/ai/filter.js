@@ -1,6 +1,10 @@
 const MAX_RESULTS = 8;
 
 function startOfDay(date) {
+  if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    const [y, m, d] = date.split("-").map(Number);
+    return new Date(y, m - 1, d); // local midnight, avoids UTC-parse shift
+  }
   const d = new Date(date);
   d.setHours(0, 0, 0, 0);
   return d;
@@ -61,7 +65,7 @@ export function filterSources(spec = {}, notices = [], restaurants = [], today =
     for (const r of restaurants) {
       const menus = Object.values(r.weeklyMeals || {}).flat()
         .map((m) => `${m.menu || ""} ${m.desc || ""}`).join(" ");
-      const text = [r.name, r.desc, menus].join(" ");
+      const text = [r.name, r.desc || "", menus].join(" ");
       const score = keywordScore(text, spec.keywords);
       if (hasKw && score === 0) continue;
       scored.push({ score, src: restaurantSource(r) });

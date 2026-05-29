@@ -15,6 +15,9 @@ export default async function aiQuery(req, res, next) {
     if (!question) {
       return res.status(400).json({ error: "BAD_REQUEST", message: "질문이 비어 있습니다." });
     }
+    if (question.length > 1000) {
+      return res.status(400).json({ error: "BAD_REQUEST", message: "질문이 너무 깁니다 (최대 1000자)." });
+    }
 
     const today = new Date();
 

@@ -17,9 +17,14 @@ export function buildFilterPrompt(question, today, categories) {
 }
 규칙:
 - 식당/학식/메뉴 관련이면 dataset에 restaurants, 공지/장학/학사/대회 등이면 notices, 둘 다면 both.
+- 질문에 카테고리 목록의 단어(장학, 취업, 학사, 행사 등)가 나오면 반드시 category에 그 값을 넣어라.
+- 질문의 핵심 명사를 keywords 배열에 넣어라(예: "장학 공지" → keywords:["장학"]).
 - "이번주"는 7, "다음주"는 7, "마감 임박"은 7처럼 상대 기간은 deadlineWithinDays(정수)로 환산.
 - 해당 없는 필드는 null, 키워드 없으면 빈 배열.
-- JSON 외 다른 텍스트는 절대 출력하지 말 것.`;
+- JSON 외 다른 텍스트는 절대 출력하지 말 것.
+예시:
+질문: "다음주 마감인 장학 공지 알려줘"
+출력: {"dataset":"notices","category":"장학","keywords":["장학"],"urgent":null,"deadlineWithinDays":7}`;
   return [
     { role: "system", content: system },
     { role: "user", content: question },
@@ -37,7 +42,8 @@ function formatCandidate(s, i) {
 
 export function buildAnswerPrompt(question, sources) {
   const list = sources.map(formatCandidate).join("\n");
-  const system = `너는 대학 캠퍼스 앱의 도우미다. 아래 "검색 결과"에 있는 항목만 근거로 한국어로 간결하게 답한다.
+  const system = `너는 대학 캠퍼스 앱의 도우미다. 아래 "검색 결과"에 있는 항목만 근거로 답한다.
+반드시 한국어로만 작성하고, 영어·중국어 등 다른 언어나 번역·메타 설명을 절대 쓰지 말 것.
 검색 결과에 없는 내용은 지어내지 말 것. 핵심만 2~4문장으로 요약한다.`;
   const user = `질문: ${question}\n\n검색 결과:\n${list}`;
   return [

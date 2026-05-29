@@ -983,6 +983,7 @@
 		input.value = "";
 		const loading = appendAiMessage("bot", "생각 중…");
 		if (!loading) return;
+		input.disabled = true;
 		try {
 			const data = await apiFetch("/api/ai/query", {
 				method: "POST",
@@ -993,6 +994,9 @@
 		} catch (err) {
 			loading.className = "ai-msg error";
 			loading.textContent = err.message || "오류가 발생했습니다.";
+		} finally {
+			input.disabled = false;
+			input.focus();
 		}
 	}
 

@@ -12,6 +12,7 @@ import me from "./auth/me.js";
 
 import notices from "./public-data/notices.js";
 import restaurants from "./public-data/restaurants.js";
+import aiQuery from "./ai/query.js";
 
 import getAllTasks from "./tasks/getAll.js";
 import createTaskHandler from "./tasks/create.js";
@@ -60,6 +61,7 @@ app.get("/api/auth/me", requireAuth, me);
 
 app.get("/api/public-data/notices", notices);
 app.get("/api/public-data/restaurants", restaurants);
+app.post("/api/ai/query", aiQuery);
 
 app.get("/api/tasks", requireAuth, getAllTasks);
 app.post("/api/tasks", requireAuth, createTaskHandler);

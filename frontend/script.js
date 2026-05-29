@@ -934,6 +934,67 @@
 		$id("noticeDetailModal")?.addEventListener("click", (e) => { if (e.target === e.currentTarget) closeNoticeDetail(); });
 	}
 
+	function toggleAiPanel(force) {
+		const panel = $id("aiPanel");
+		if (!panel) return;
+		const open = force ?? panel.hidden;
+		panel.hidden = !open;
+		if (open) setTimeout(() => $id("aiInput")?.focus(), 50);
+	}
+
+	function appendAiMessage(role, text) {
+		const list = $id("aiMessages");
+		if (!list) return null;
+		const div = document.createElement("div");
+		div.className = `ai-msg ${role}`;
+		div.textContent = text;
+		list.appendChild(div);
+		list.scrollTop = list.scrollHeight;
+		return div;
+	}
+
+	function aiSourceCardTemplate(s) {
+		if (s.type === "notice") {
+			const meta = [s.dept, s.date].filter(Boolean).join(" · ");
+			if (s.url) {
+				return `<a class="ai-source-card" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.title)}<small>${escapeHtml(meta)}</small></a>`;
+			}
+			return `<div class="ai-source-card">${escapeHtml(s.title)}<small>${escapeHtml(meta)}</small></div>`;
+		}
+		return `<div class="ai-source-card">${escapeHtml(s.name)}<small>${escapeHtml(s.desc || "")}</small></div>`;
+	}
+
+	function appendAiSources(sources) {
+		const list = $id("aiMessages");
+		if (!list || !Array.isArray(sources) || sources.length === 0) return;
+		const wrap = document.createElement("div");
+		wrap.className = "ai-sources";
+		wrap.innerHTML = sources.map(aiSourceCardTemplate).join("");
+		list.appendChild(wrap);
+		list.scrollTop = list.scrollHeight;
+	}
+
+	async function handleAiSubmit(e) {
+		e.preventDefault();
+		const input = $id("aiInput");
+		const question = input.value.trim();
+		if (!question) return;
+		appendAiMessage("user", question);
+		input.value = "";
+		const loading = appendAiMessage("bot", "생각 중…");
+		try {
+			const data = await apiFetch("/api/ai/query", {
+				method: "POST",
+				body: JSON.stringify({ question }),
+			});
+			loading.textContent = data.answer || "응답이 없습니다.";
+			appendAiSources(data.sources);
+		} catch (err) {
+			loading.className = "ai-msg error";
+			loading.textContent = err.message || "오류가 발생했습니다.";
+		}
+	}
+
 	function setupEvents() {
 		document.querySelectorAll(".nav-bar button").forEach((b) => {
 			b.addEventListener("click", (e) => switchPage(e.currentTarget.dataset.page));
@@ -956,6 +1017,9 @@
 		$id("taskForm")?.addEventListener("submit", handleTaskSubmit);
 		$id("classForm")?.addEventListener("submit", handleClassSubmit);
 		$id("authForm")?.addEventListener("submit", handleAuthSubmit);
+		$id("aiFab")?.addEventListener("click", () => toggleAiPanel());
+		$id("aiPanelClose")?.addEventListener("click", () => toggleAiPanel(false));
+		$id("aiForm")?.addEventListener("submit", handleAiSubmit);
 	}
 
 	async function init() {

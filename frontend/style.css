@@ -1521,6 +1521,7 @@ body.dark .modal-tabs button.active {
 	border: none;
 	background: transparent;
 	font-size: 16px;
+	line-height: 1;
 	cursor: pointer;
 	color: var(--muted);
 }
@@ -1602,11 +1603,18 @@ body.dark .modal-tabs button.active {
 	color: var(--ink);
 }
 
+.ai-input-row input:focus {
+	outline: 2px solid var(--primary);
+	outline-offset: 1px;
+	border-color: var(--primary);
+}
+
 .ai-send {
 	border: none;
 	background: var(--primary);
 	color: #fff;
 	width: 40px;
+	align-self: stretch;
 	border-radius: 12px;
 	cursor: pointer;
 	font-size: 16px;

@@ -977,11 +977,12 @@
 	async function handleAiSubmit(e) {
 		e.preventDefault();
 		const input = $id("aiInput");
-		const question = input.value.trim();
+		const question = input?.value.trim();
 		if (!question) return;
 		appendAiMessage("user", question);
 		input.value = "";
 		const loading = appendAiMessage("bot", "생각 중…");
+		if (!loading) return;
 		try {
 			const data = await apiFetch("/api/ai/query", {
 				method: "POST",

@@ -97,9 +97,11 @@ filter.js: notices + restaurants 읽어 코드로 필터 → 후보 ≤ 8개
 
 식당 source:
 ```json
-{ "type": "restaurant", "name": "...", "category": "...", "...": "..." }
+{ "type": "restaurant", "id": "core", "name": "감성코어",
+  "desc": "제3복지관 1층", "icon": "🍽️" }
 ```
-(restaurant 필드는 restaurants.json 실제 스키마 확인 후 최소 필드만 매핑)
+(restaurants.json 스키마: `{ id, name, desc(위치), icon, gradient,
+weeklyMeals:{ "0".."6":[{ type, menu, desc, time }] } }`)
 
 에러:
 - 400 `{ error:"BAD_REQUEST", message:"질문이 비어 있습니다." }` — question 없음/빈 문자열
@@ -131,7 +133,7 @@ filter.js: notices + restaurants 읽어 코드로 필터 → 후보 ≤ 8개
 - notices 필터: category 일치(있을 때) AND urgent 일치(있을 때) AND
   deadline ≤ today+N일(deadlineWithinDays 있을 때, deadline null은 제외) AND
   keyword가 title/summary/tags 중 하나라도 매칭(keywords 있을 때).
-- restaurants 필터: keyword 매칭(없으면 전체에서 상위 N).
+- restaurants 필터: keyword를 name/desc/weeklyMeals의 menu에 매칭(없으면 전체 상위 N).
 - 점수: 매칭 키워드 수 + urgent 가중치. 내림차순 정렬 후 상위 8.
 - 순수함수 → LLM/네트워크 없이 단위 테스트.
 
@@ -185,5 +187,4 @@ filter.js: notices + restaurants 읽어 코드로 필터 → 후보 ≤ 8개
 
 ## 14. 미해결 / 구현 시 확인
 
-- `restaurants.json` 실제 스키마 → source 매핑 필드 확정.
 - 모델 한국어 JSON 출력 품질 → 필요 시 프롬프트 few-shot 보강.

@@ -1,6 +1,7 @@
 backend/node_modules/
 backend/data/
 docs
+docs/*
 .DS_Store
 presentation
 .claude

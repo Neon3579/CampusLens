@@ -281,6 +281,19 @@
 			</div>
 		</div>
 
+		<button class="ai-fab" id="aiFab" type="button" aria-label="AI 도우미 열기">💬</button>
+			<div class="ai-panel" id="aiPanel" data-component="ai-panel" hidden>
+				<div class="ai-panel-head">
+					<strong>AI 캠퍼스 도우미</strong>
+					<button class="ai-panel-close" id="aiPanelClose" type="button" aria-label="닫기">✕</button>
+				</div>
+				<div class="ai-messages" id="aiMessages" data-render-target="ai-messages"></div>
+				<form class="ai-input-row" id="aiForm">
+					<input id="aiInput" type="text" placeholder="예: 다음주 마감인 장학 공지 알려줘" autocomplete="off" />
+					<button class="ai-send" type="submit" aria-label="보내기">↑</button>
+				</form>
+			</div>
+
 		<div class="toast" id="toast" data-component="toast"></div>
 
 		<script src="script.js"></script>

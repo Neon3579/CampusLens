@@ -1471,3 +1471,143 @@ body.dark .modal-tabs button.active {
 .tt-class-delete:hover {
 	background: rgba(239, 68, 68, 0.55);
 }
+
+.ai-fab {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	border: none;
+	background: var(--primary);
+	color: #fff;
+	font-size: 24px;
+	cursor: pointer;
+	box-shadow: var(--shadow);
+	z-index: 60;
+}
+
+.ai-panel {
+	position: fixed;
+	right: 20px;
+	bottom: 88px;
+	width: min(380px, calc(100vw - 40px));
+	height: min(520px, calc(100vh - 140px));
+	background: var(--paper-solid);
+	border: 1px solid var(--line);
+	border-radius: 18px;
+	box-shadow: var(--shadow);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	z-index: 60;
+}
+
+.ai-panel[hidden] {
+	display: none;
+}
+
+.ai-panel-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 14px 16px;
+	border-bottom: 1px solid var(--line);
+	color: var(--ink);
+}
+
+.ai-panel-close {
+	border: none;
+	background: transparent;
+	font-size: 16px;
+	cursor: pointer;
+	color: var(--muted);
+}
+
+.ai-messages {
+	flex: 1;
+	overflow-y: auto;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.ai-msg {
+	max-width: 85%;
+	padding: 10px 12px;
+	border-radius: 14px;
+	font-size: 14px;
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+.ai-msg.user {
+	align-self: flex-end;
+	background: var(--primary);
+	color: #fff;
+}
+
+.ai-msg.bot {
+	align-self: flex-start;
+	background: var(--bg);
+	color: var(--ink);
+}
+
+.ai-msg.error {
+	align-self: flex-start;
+	background: rgba(249, 115, 22, 0.15);
+	color: var(--orange);
+}
+
+.ai-sources {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-self: flex-start;
+	max-width: 95%;
+}
+
+.ai-source-card {
+	display: block;
+	padding: 10px 12px;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--paper-solid);
+	color: var(--ink);
+	text-decoration: none;
+	font-size: 13px;
+}
+
+.ai-source-card small {
+	color: var(--muted);
+	display: block;
+	margin-top: 2px;
+}
+
+.ai-input-row {
+	display: flex;
+	gap: 8px;
+	padding: 12px;
+	border-top: 1px solid var(--line);
+}
+
+.ai-input-row input {
+	flex: 1;
+	padding: 10px 12px;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--paper-solid);
+	color: var(--ink);
+}
+
+.ai-send {
+	border: none;
+	background: var(--primary);
+	color: #fff;
+	width: 40px;
+	border-radius: 12px;
+	cursor: pointer;
+	font-size: 16px;
+}
